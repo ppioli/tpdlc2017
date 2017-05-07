@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0e1603f9-d0ff-4a8d-9e9c-ebca52bebd95" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/gaston/tpdlc2017/servlet3/MyWebInitializer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webapp/resources/core/js/upload.js" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/mkyong/helloworld/servlet3/MyWebInitializer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/webapp/resources/core/js/hello.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mkyong/helloworld/config/SpringRootConfig.java" afterPath="$PROJECT_DIR$/src/main/java/com/gaston/tpdlc2017/config/SpringRootConfig.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mkyong/helloworld/config/SpringWebConfig.java" afterPath="$PROJECT_DIR$/src/main/java/com/gaston/tpdlc2017/config/SpringWebConfig.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mkyong/helloworld/service/HelloWorldService.java" afterPath="$PROJECT_DIR$/src/main/java/com/gaston/tpdlc2017/service/HelloWorldService.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/mkyong/helloworld/web/WelcomeController.java" afterPath="$PROJECT_DIR$/src/main/java/com/gaston/tpdlc2017/web/WelcomeController.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webapp/resources/core/css/hello.css" afterPath="$PROJECT_DIR$/src/main/webapp/resources/core/css/base.css" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/com/mkyong/helloworld/TestController.java" afterPath="$PROJECT_DIR$/src/test/java/com/gaston/tpdlc2017/TestController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/logback.xml" afterPath="$PROJECT_DIR$/src/main/resources/logback.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/index.jsp" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/jsp/index.jsp" />
-    </list>
+    <list default="true" id="0e1603f9-d0ff-4a8d-9e9c-ebca52bebd95" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
     <ignored path="$PROJECT_DIR$/out/" />
