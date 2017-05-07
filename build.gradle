@@ -1,7 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'war'
-apply plugin: 'eclipse-wtp'
-//apply plugin: 'jetty' //too old, Jetty6, use gretty
 apply plugin: 'org.akhikhl.gretty'
 apply plugin: 'idea'
 apply plugin: 'jacoco' //code coverage
@@ -38,6 +36,7 @@ dependencies {
     compile 'org.springframework:spring-webmvc:' +springVersion
 	compile 'javax.servlet:jstl:' + jstlVersion
     compile 'org.springframework:spring-test:' + springVersion
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
     //exclude the build in hamcrest
     testCompile('junit:junit:' + junitVersion) {
         exclude group: 'org.hamcrest'
@@ -45,7 +44,10 @@ dependencies {
     testCompile 'org.hamcrest:hamcrest-library:' + hamcrestVersion
 	//include in compile only, exclude in the war
     providedCompile 'javax.servlet:javax.servlet-api:' + servletApiVersion
-	
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
+
+
 }
 
 //Gretty
@@ -56,26 +58,6 @@ buildscript {
 
   dependencies {
     classpath 'org.akhikhl.gretty:gretty:+'
-  }
-}
-
-gretty {
-  port = 8080
-  contextPath = 'spring4'
-  servletContainer = 'jetty9'
-}
-
-//For Eclipse IDE only
-eclipse {
-
-  wtp {
-    component {
-      
-      //define context path, default to project folder name
-      contextPath = 'spring4'
-      
-    }
-    
   }
 }
 

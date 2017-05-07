@@ -1,3 +1,5 @@
+
+
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -42,29 +44,12 @@
 
 <div class="container">
 
-	<div class="row">
-		<div class="col-md-4">
-			<h2>Heading</h2>
-			<p>ABC</p>
-			<p>
-				<a class="btn btn-default" href="#" role="button">View details</a>
-			</p>
-		</div>
-		<div class="col-md-4">
-			<h2>Heading</h2>
-			<p>ABC</p>
-			<p>
-				<a class="btn btn-default" href="#" role="button">View details</a>
-			</p>
-		</div>
-		<div class="col-md-4">
-			<h2>Heading</h2>
-			<p>ABC</p>
-			<p>
-				<a class="btn btn-default" href="#" role="button">View details</a>
-			</p>
-		</div>
-	</div>
+	<form id="file-form" action="" method="POST">
+
+        <input type="file" id="file-select" name="files" multiple/>
+        <button type="submit" id="upload-button">Upload</button>
+
+    </form>
 
 
 	<hr>
@@ -73,11 +58,12 @@
 	</footer>
 </div>
 
+<spring:url value="/resources/core/js/upload.js" var="coreJs" />
 <spring:url value="/resources/core/js/bootstrap.min.js" var="bootstrapJs" />
 <spring:url value="/resources/core/js/jquery.js" var="jQuery" />
 <script src="${jQuery}"></script>
 <script src="${bootstrapJs}"></script>
-
+<script src="${coreJs}"></script>
 
 </body>
 </html>
