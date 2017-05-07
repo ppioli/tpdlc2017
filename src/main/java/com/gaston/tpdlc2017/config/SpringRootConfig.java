@@ -29,5 +29,5 @@ public class SpringRootConfig {
     public Base64.Encoder encoder(){
         return Base64.getUrlEncoder();
     }
-    
+
 }
