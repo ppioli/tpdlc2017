@@ -25,14 +25,11 @@ public class HashingService {
         this.encoder = encoder;
     }
 
-    public String hash(byte[] bytes){
-        try {
-            byte[] hash = messageDigest.digest(bytes);
-            byte[] encodedBytes = encoder.encodeToString(hash).getBytes("UTF8");
-            return new String(encodedBytes, "UTF8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public byte[] hash(byte[] bytes){
+        return messageDigest.digest(bytes);
+    }
+
+    public String encodedHash(byte[] bytes){
+        return this.encoder.encodeToString(bytes);
     }
 }

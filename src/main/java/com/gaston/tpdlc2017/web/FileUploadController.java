@@ -5,7 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.StringJoiner;
 
 import com.gaston.tpdlc2017.model.Documento;
 import com.gaston.tpdlc2017.service.DocumentoService;
@@ -14,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,26 +45,30 @@ public class FileUploadController {
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
     public @ResponseBody String handleFileUpload(@RequestParam("file") MultipartFile file){
+        logger.info("Got file upload request: " + file.getName());
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                String hash = hashingService.hash(bytes);
+                byte[] hash = hashingService.hash(bytes);
                 if(documentoService.exists(hash)){
-                    return "Documento ya fue indexado";
+                    return "{status: \"error\", message: \"Documento ya fue indexado\"}";
                 } else {
                     //indexar el documento
-                    Path path = Paths.get(UPLOADED_FOLDER + hash + ".dat" );
+                    String docName = hashingService.encodedHash(hash);
+                    Path path = Paths.get(UPLOADED_FOLDER + docName + ".dat" );
                     Files.write(path, bytes);
                     Documento documento = new Documento(null, file.getOriginalFilename(), hash);
                     documentoService.create(documento);
+                    return "{status: \"ok\", result: \""+ file.getOriginalFilename() +"\"}";
                 }
 
             } catch (IOException e) {
-                logger.error("Error while writing the file: ", e);
-                return "ERROR";
+                return "{status: \"error\", message: \"Can't write file to disk\"}";
             }
+        } else {
+            return "{status: \"error\", message: \"Seleccion vacia\"}";
         }
-        return "OK";
+
     }
 
 }

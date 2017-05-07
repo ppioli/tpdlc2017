@@ -1,7 +1,6 @@
 package com.gaston.tpdlc2017.service;
 
 import com.gaston.tpdlc2017.model.Documento;
-import com.mysql.cj.api.mysqla.result.Resultset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.util.List;
 
 /**
  * Created by ppioli on 07/05/17.
@@ -38,20 +36,22 @@ public class DocumentoServiceImpl implements DocumentoService{
     }
 
     @Override
-    public boolean exists(String hash) {
-
-        String sqlNew = "SELECT FROM documentos (hash) WHERE (documentos.hash = ?)";
+    public boolean exists(byte[] hash) {
+        String selectSQL = "SELECT count(*) FROM documentos WHERE hash = ?";
+        ResultSet rs = null;
         Connection conn = null;
+        PreparedStatement pstmt = null;
         try {
             conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sqlNew);
-
-            ps.setString(1, hash);
-
-            ResultSet rs = ps.executeQuery();
-
-            ps.close();
-            return rs.getFetchSize() == 1;
+            pstmt = conn.prepareStatement(selectSQL);
+            pstmt.setBytes(1, hash);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                int numberOfRows = rs.getInt(1);
+                return numberOfRows == 1;
+            } else {
+                return false;
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (Exception e) {
@@ -75,7 +75,7 @@ public class DocumentoServiceImpl implements DocumentoService{
             conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement(sqlNew);
 
-            ps.setString(1, doc.getHash());
+            ps.setBytes(1, doc.getHash());
             ps.setString(2, doc.getName());
 
             ps.executeUpdate();
@@ -106,17 +106,8 @@ public class DocumentoServiceImpl implements DocumentoService{
             ps.setString(1, hash);
 
             ResultSet re = ps.executeQuery();
-            if(re.getFetchSize() == 1 ){
-                re.next();
-
-                Documento doc = new Documento(
-                        re.getInt("id"),
-                        re.getString("name"),
-                        re.getString("hash")
-                );
-                return doc;
-            }
             ps.close();
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (Exception e) {
@@ -128,6 +119,5 @@ public class DocumentoServiceImpl implements DocumentoService{
                 } catch (SQLException e) {}
             }
         }
-        return null;
     }
 }

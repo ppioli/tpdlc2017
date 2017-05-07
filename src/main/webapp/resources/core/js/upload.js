@@ -1,3 +1,5 @@
+/*(function() {
+
 var form = document.getElementById('file-form');
 var fileSelect = document.getElementById('file-select');
 var uploadButton = document.getElementById('upload-button');
@@ -5,44 +7,89 @@ var uploadButton = document.getElementById('upload-button');
 form.onsubmit = function(event) {
   event.preventDefault();
   uploadButton.innerHTML = 'Uploading...';
-  var formData = new FormData();
+
   var files = fileSelect.files;
   for (var i = 0; i < files.length; i++) {
-    var file = files[i];
+        var file = files[i];
+        // Check the file type.
+        if(!file.type.match("text*")) continue;
+        console.log("file type: " + file.type);
 
-    // Check the file type.
-    if(!file.type.match("text*")) continue;
-    console.log("file type: " + file.type);
 
+        // Add the file to the request.
+        var formData = new FormData();
+        formData.append('file', file, file.name);
 
-    // Add the file to the request.
-    formData.append('file', file, file.name);
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', '/tpdlc2017/upload', true);
+        xhr.onload = function () {
+          if (xhr.status === 200) {
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/tpdlc2017/upload', true);
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-
-      } else {
-        alert('An error occurred!');
-      }
-    };
-    xhr.send(formData);
-  }
+          } else {
+            alert('An error occurred!');
+          }
+        };
+        xhr.send(formData);
+        $.post('/tpdlc2017/upload', formData, function(data){
+              console.log("resonse: " + data);
+           }
+        );
+    }
+}
+});*/
+var files;
+// Add events
+$('input[type=file]').on('change', prepareUpload);
+$('form').on('submit', uploadFiles);
+// Grab the files and set them to our variable
+function prepareUpload(event)
+{
+    files = event.target.files;
 }
 
+function XhrManager(method, url){
+    this.method = method;
+    this.url = url;
+    this.queue = [];
 
-function add_api_call_to_queue(qname, api_url) {
-    $(document).queue(qname, function() {
-        $.ajax({
-            type     : 'POST',
-            async    : true,
-            url      : api_url,
-            dataType : 'form',
-            success  : function(data, textStatus, jqXHR) {
+    this.add = function(data)
+    {
+        this.queue.push(data)
+    }
+    this.list = function(){
+        this.queue.forEach(function(item){
+            console.log(item)
+        })
+    }
+}
+function uploadFiles(event)
+{
+    event.stopPropagation(); // Stop stuff happening
+    event.preventDefault(); // Totally stop stuff happening
+    var manager = new XhrManager('POST', '/tpdlc2017/upload');
+    for (var i = 0; i < files.length; i++) {
+        var file = files[i];
+        // Check the file type.
+        if(!file.type.match("text*")) continue;
+        console.log("file type: " + file.type);
 
-                $(document).dequeue(qname);
-            }
-        });
-    });
+
+        // Add the file to the request.
+        var formData = new FormData();
+        formData.append('file', file, file.name);
+        manager.add(formData);
+        /*var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/tpdlc2017/upload', true);
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+
+          } else {
+            alert('An error occurred!');
+          }
+        };
+        xhr.send(formData);*/
+
+
+    }
+    manager.list();
 }

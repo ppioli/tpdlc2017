@@ -18,7 +18,7 @@ public class SpringRootConfig {
     @Bean
     public MessageDigest getMD5(){
         try {
-            return MessageDigest.getInstance("MD5");
+            return MessageDigest.getInstance("SHA-1");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }

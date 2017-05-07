@@ -1,5 +1,7 @@
 package com.gaston.tpdlc2017.web;
 
+import com.gaston.tpdlc2017.model.Documento;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,7 +21,7 @@ public class HashSomething {
 
     public HashSomething() {
         try {
-            this.md5 = MessageDigest.getInstance("MD5");
+            this.md5 = MessageDigest.getInstance("SHA-1");
             this.encoder = Base64.getUrlEncoder();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -43,5 +45,13 @@ public class HashSomething {
         System.out.println(String.format("El hash de %s es %s", palabra, hash));
         System.out.println(String.format("El hash de el archivo %s es %s", path.toString(), fileHash));
 
+        Path destino = Paths.get("/home/ppioli/uploads/" + fileHash + ".dat");
+        Files.write(destino, data);
+
+    }
+
+    public void showFile(Documento doc) throws IOException {
+        Path path = Paths.get("/home/ppioli/uploads/" + doc.getHash() + ".dat");
+        byte[] bytes = Files.readAllBytes(path);
     }
 }

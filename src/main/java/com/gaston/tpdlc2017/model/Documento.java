@@ -1,10 +1,5 @@
 package com.gaston.tpdlc2017.model;
 
-import com.mysql.cj.jdbc.Blob;
-
-import java.security.MessageDigest;
-import java.util.Set;
-
 /**
  * Created by ppioli on 07/05/17.
  */
@@ -12,11 +7,11 @@ public class Documento {
 
 
     private String name;
-    private String hash;
+    private byte[] hash;
     private Integer id;
 
 
-    public Documento(Integer id, String name, String hash) {
+    public Documento(Integer id, String name, byte[] hash) {
         this.id = id;
         this.name = name;
         this.hash = hash;
@@ -30,11 +25,11 @@ public class Documento {
         this.name = name;
     }
 
-    public String getHash() {
+    public byte[] getHash() {
         return hash;
     }
 
-    public void setHash(String hash) {
+    public void setHash(byte[] hash) {
         this.hash = hash;
     }
 

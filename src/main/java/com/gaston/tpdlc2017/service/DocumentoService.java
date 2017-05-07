@@ -7,7 +7,7 @@ import com.gaston.tpdlc2017.model.Documento;
  */
 public interface DocumentoService {
 
-    boolean exists(String hash);
+    boolean exists(byte[] hash);
 
     void create(Documento doc);
 
