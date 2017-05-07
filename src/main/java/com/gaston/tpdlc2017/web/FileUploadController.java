@@ -9,6 +9,7 @@ import java.util.Map;
 import com.gaston.tpdlc2017.model.Documento;
 import com.gaston.tpdlc2017.service.DocumentoService;
 import com.gaston.tpdlc2017.service.HashingService;
+import com.gaston.tpdlc2017.service.IndexadorDocumentos;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,15 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class FileUploadController {
     private final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
-    private static String UPLOADED_FOLDER = "/home/ppioli/uploads/";
-
+    private Path docRepo;
     private DocumentoService documentoService;
     private HashingService hashingService;
+    private IndexadorDocumentos indexadorDocumentos;
+
+    @Autowired
+    public void setIndexadorDocumentos(IndexadorDocumentos indexadorDocumentos) {
+        this.indexadorDocumentos = indexadorDocumentos;
+    }
 
     @Autowired
     public void setHashingService(HashingService hashingService) {
@@ -35,6 +41,11 @@ public class FileUploadController {
     @Autowired
     public void setDocumentoService(DocumentoService documentoService) {
         this.documentoService = documentoService;
+    }
+
+    @Autowired
+    public void setDocRepo(Path docRepo) {
+        this.docRepo = docRepo;
     }
 
     @RequestMapping(value="/upload", method=RequestMethod.GET)
@@ -51,22 +62,24 @@ public class FileUploadController {
                 byte[] bytes = file.getBytes();
                 byte[] hash = hashingService.hash(bytes);
                 if(documentoService.exists(hash)){
-                    return "{status: \"error\", message: \"Documento ya fue indexado\"}";
+                    return "{done: false, message: \"Documento ya fue indexado\" , file:\"" + file.getOriginalFilename() + "\"}";
                 } else {
                     //indexar el documento
-                    String docName = hashingService.encodedHash(hash);
-                    Path path = Paths.get(UPLOADED_FOLDER + docName + ".dat" );
-                    Files.write(path, bytes);
                     Documento documento = new Documento(null, file.getOriginalFilename(), hash);
+                    Path path = docRepo.resolve( hashingService.hashToFileName(hash));
                     documentoService.create(documento);
-                    return "{status: \"ok\", result: \""+ file.getOriginalFilename() +"\"}";
+                    boolean result = indexadorDocumentos.indexar(documento);
+                    if(result){
+                        Files.write(path, bytes);
+                    }
+                    return "{done: true, message: \"Documento indexado\" , file:\"" + file.getOriginalFilename() + "\"}";
                 }
 
             } catch (IOException e) {
-                return "{status: \"error\", message: \"Can't write file to disk\"}";
+                return "{done: false, message: \""+e.getMessage()+"\", file:\"" + file.getOriginalFilename() + "\"}";
             }
         } else {
-            return "{status: \"error\", message: \"Seleccion vacia\"}";
+            return "{done: false, message: \"Seleccion vacia\"}";
         }
 
     }

@@ -7,6 +7,6 @@ import com.gaston.tpdlc2017.model.Palabra;
  */
 public interface ServicioPalabra {
 
-    void insertar(Palabra customer);
-    Palabra buscarPalabra(int custId);
+    Palabra create(Palabra palabra);
+    Palabra get(byte[] hash);
 }

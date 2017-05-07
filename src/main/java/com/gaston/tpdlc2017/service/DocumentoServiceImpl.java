@@ -1,6 +1,7 @@
 package com.gaston.tpdlc2017.service;
 
 import com.gaston.tpdlc2017.model.Documento;
+import com.gaston.tpdlc2017.model.Palabra;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ppioli on 07/05/17.
@@ -17,13 +20,8 @@ public class DocumentoServiceImpl implements DocumentoService{
     private final Logger logger = LoggerFactory.getLogger(DocumentoServiceImpl.class);
 
     private DataSource dataSource;
-    private HashingService hashingService;
-    private MySQLUtils escapeUtils;
 
-    @Autowired
-    public void setEscapeUtils(MySQLUtils escapeUtils) {
-        this.escapeUtils = escapeUtils;
-    }
+    private HashingService hashingService;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -48,7 +46,8 @@ public class DocumentoServiceImpl implements DocumentoService{
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 int numberOfRows = rs.getInt(1);
-                return numberOfRows == 1;
+                logger.info("Number of rows "+ numberOfRows);
+                return numberOfRows != 0;
             } else {
                 return false;
             }
@@ -66,22 +65,27 @@ public class DocumentoServiceImpl implements DocumentoService{
     }
 
     @Override
-    public void create(Documento doc) {
+    public int create(Documento doc) {
         String sqlNew = "INSERT INTO documentos (hash, name) VALUES (?, ?)";
-        String sqlUpdate = "INSERT INTO documentos (hash, name) VALUES (?, ?)";
         Connection conn = null;
 
         try {
             conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sqlNew);
+            PreparedStatement ps = conn.prepareStatement(sqlNew, Statement.RETURN_GENERATED_KEYS);
 
             ps.setBytes(1, doc.getHash());
             ps.setString(2, doc.getName());
 
-            ps.executeUpdate();
+            int result = ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            int id = -1;
+            if(rs.next())
+            {
+                id = rs.getInt(1);
+            }
 
             ps.close();
-
+            return id;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (Exception e) {
@@ -93,6 +97,11 @@ public class DocumentoServiceImpl implements DocumentoService{
                 } catch (SQLException e) {}
             }
         }
+    }
+
+    @Override
+    public void indexDocument(Documento doc) {
+        Map<Palabra, Integer> map = new HashMap<>();
     }
 
     @Override

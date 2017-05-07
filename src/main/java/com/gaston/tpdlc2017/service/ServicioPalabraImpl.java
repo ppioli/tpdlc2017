@@ -1,6 +1,8 @@
 package com.gaston.tpdlc2017.service;
 
 import com.gaston.tpdlc2017.model.Palabra;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import java.sql.SQLException;
 @Service
 public class ServicioPalabraImpl implements ServicioPalabra{
 
+    private final Logger logger = LoggerFactory.getLogger(ServicioPalabraImpl.class);
     private DataSource dataSource;
 
     @Autowired
@@ -24,55 +27,31 @@ public class ServicioPalabraImpl implements ServicioPalabra{
     }
 
     @Override
-    public void insertar(Palabra palabra) {
-        String sql = "INSERT INTO PALABRAS " +
-                "(id, valor, cuenta_max) VALUES (?, ?, ?)";
-        Connection conn = null;
-
-        try {
-            conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, palabra.getId());
-            ps.setString(2, palabra.getValor());
-            ps.setInt(3, palabra.getCuentaMaxima());
-            ps.executeUpdate();
-            ps.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {}
-            }
-        }
+    public Palabra create(Palabra palabra) {
+        return null;
     }
 
     @Override
-    public Palabra buscarPalabra(int id) {
-        String sql = "SELECT * FROM palabras WHERE id = ?";
-
+    public Palabra get(byte[] hash){
+        String selectSQL = "SELECT id, val, maxCount FROM palabras WHERE hash = ?";
+        ResultSet rs = null;
         Connection conn = null;
-
+        PreparedStatement pstmt = null;
         try {
             conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            Palabra palabra = null;
-            ResultSet rs = ps.executeQuery();
+            pstmt = conn.prepareStatement(selectSQL);
+            pstmt.setBytes(1, hash);
+            rs = pstmt.executeQuery();
             if (rs.next()) {
-                palabra = new Palabra(
-                        rs.getInt("id"),
-                        rs.getString("valor"),
-                        rs.getInt("cuenta_max")
-                );
+                return new Palabra(rs.getInt("id"),
+                        rs.getString("val"),
+                        rs.getInt("maxCount"));
+            } else {
+                return null;
             }
-            rs.close();
-            ps.close();
-            return palabra;
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
             if (conn != null) {
@@ -81,5 +60,6 @@ public class ServicioPalabraImpl implements ServicioPalabra{
                 } catch (SQLException e) {}
             }
         }
+
     }
 }

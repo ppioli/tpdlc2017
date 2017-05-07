@@ -29,7 +29,19 @@ public class HashingService {
         return messageDigest.digest(bytes);
     }
 
+    public byte[] hash(String string){
+        return messageDigest.digest(string.getBytes());
+    }
+
     public String encodedHash(byte[] bytes){
         return this.encoder.encodeToString(bytes);
+    }
+
+    public String encodedHash(String string){
+        return this.encoder.encodeToString(hash(string.getBytes()));
+    }
+
+    public String hashToFileName(byte[] bytes){
+        return encodedHash(bytes) + ".txt";
     }
 }

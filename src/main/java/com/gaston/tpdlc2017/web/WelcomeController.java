@@ -19,12 +19,11 @@ public class WelcomeController {
 
 	private final Logger logger = LoggerFactory.getLogger(WelcomeController.class);
 	private final HelloWorldService helloWorldService;
-	private final ServicioPalabra palabraDAO;
+
 
 	@Autowired
 	public WelcomeController(HelloWorldService helloWorldService, ServicioPalabra palabraDAO) {
 		this.helloWorldService = helloWorldService;
-		this.palabraDAO = palabraDAO;
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -34,7 +33,7 @@ public class WelcomeController {
 
 		model.put("title", helloWorldService.getTitle(""));
 		model.put("msg", helloWorldService.getDesc());
-		model.put("palabra", palabraDAO.buscarPalabra(1));
+
 
 		return "index";
 	}

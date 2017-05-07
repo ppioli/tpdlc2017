@@ -9,7 +9,9 @@ public interface DocumentoService {
 
     boolean exists(byte[] hash);
 
-    void create(Documento doc);
+    int create(Documento doc);
+
+    void indexDocument(Documento doc);
 
     Documento find(String hash);
 }

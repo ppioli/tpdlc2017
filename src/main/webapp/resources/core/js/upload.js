@@ -1,5 +1,5 @@
-/*(function() {
 
+/*
 var form = document.getElementById('file-form');
 var fileSelect = document.getElementById('file-select');
 var uploadButton = document.getElementById('upload-button');
@@ -37,6 +37,7 @@ form.onsubmit = function(event) {
     }
 }
 });*/
+(function() {
 var files;
 // Add events
 $('input[type=file]').on('change', prepareUpload);
@@ -60,6 +61,24 @@ function XhrManager(method, url){
         this.queue.forEach(function(item){
             console.log(item)
         })
+    }
+    this.run = function(){
+        var _this = this;
+        if(this.queue.length>0){
+            var data = this.queue.pop();
+
+            var xhr = new XMLHttpRequest();
+            xhr.open(this.method, this.url, true);
+            xhr.onload = function () {
+              if (xhr.status === 200) {
+                console.log("done");
+              } else {
+                console.log("error");
+              }
+              _this.run();
+            };
+            xhr.send(data);
+        }
     }
 }
 function uploadFiles(event)
@@ -91,5 +110,7 @@ function uploadFiles(event)
 
 
     }
-    manager.list();
+    manager.run();
 }
+
+})();

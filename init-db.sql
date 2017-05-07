@@ -4,7 +4,9 @@ use db_tpdlc2017;
 
 CREATE TABLE `palabras` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `valor` varchar(20) NOT NULL,
+  `maxCount` int(11) NOT NULL,
+  `val` varchar(20) NOT NULL,
+  `hash` binary(20) NOT NULL,
   PRIMARY KEY (`id`)
 );
 
