@@ -1,16 +1,15 @@
 package com.gaston.tpdlc2017.service;
 
 import com.gaston.tpdlc2017.model.Documento;
+import com.mysql.cj.api.mysqla.result.Resultset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.List;
 
 /**
  * Created by ppioli on 07/05/17.
@@ -39,17 +38,32 @@ public class DocumentoServiceImpl implements DocumentoService{
     }
 
     @Override
-    public boolean exists(Documento doc) {
-        return false;
-    }
+    public boolean exists(String hash) {
 
-    /**
-     `id` int(8) NOT NULL AUTO_INCREMENT,
-     `hash` varchar(250) NOT NULL,
-     `name` varchar(20) NOT NULL,
-     `blob` BLOB NOT NULL,
-     PRIMARY KEY (`id`)
-     */
+        String sqlNew = "SELECT FROM documentos (hash) WHERE (documentos.hash = ?)";
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlNew);
+
+            ps.setString(1, hash);
+
+            ResultSet rs = ps.executeQuery();
+
+            ps.close();
+            return rs.getFetchSize() == 1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {}
+            }
+        }
+    }
 
     @Override
     public void create(Documento doc) {
@@ -63,7 +77,9 @@ public class DocumentoServiceImpl implements DocumentoService{
 
             ps.setString(1, doc.getHash());
             ps.setString(2, doc.getName());
+
             ps.executeUpdate();
+
             ps.close();
 
         } catch (SQLException e) {
@@ -77,5 +93,41 @@ public class DocumentoServiceImpl implements DocumentoService{
                 } catch (SQLException e) {}
             }
         }
+    }
+
+    @Override
+    public Documento find(String hash) {
+        String sqlNew = "SELECT FROM documentos (hash) WHERE (documentos.hash = ?)";
+        Connection conn = null;
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlNew);
+
+            ps.setString(1, hash);
+
+            ResultSet re = ps.executeQuery();
+            if(re.getFetchSize() == 1 ){
+                re.next();
+
+                Documento doc = new Documento(
+                        re.getInt("id"),
+                        re.getString("name"),
+                        re.getString("hash")
+                );
+                return doc;
+            }
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {}
+            }
+        }
+        return null;
     }
 }

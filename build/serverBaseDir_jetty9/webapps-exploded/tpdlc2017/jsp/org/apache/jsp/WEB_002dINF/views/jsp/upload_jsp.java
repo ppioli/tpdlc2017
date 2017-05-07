@@ -112,15 +112,12 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("</div>\n");
       out.write("\n");
       out.write("<div class=\"container\">\n");
-      out.write("\n");
       out.write("\t<form id=\"file-form\" action=\"\" method=\"POST\">\n");
       out.write("\n");
       out.write("        <input type=\"file\" id=\"file-select\" name=\"files\" multiple/>\n");
       out.write("        <button type=\"submit\" id=\"upload-button\">Upload</button>\n");
       out.write("\n");
       out.write("    </form>\n");
-      out.write("\n");
-      out.write("\n");
       out.write("\t<hr>\n");
       out.write("\t<footer>\n");
       out.write("\t\t<p>&copy; Mkyong.com 2015</p>\n");

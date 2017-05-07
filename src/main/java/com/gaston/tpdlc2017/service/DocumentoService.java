@@ -6,6 +6,10 @@ import com.gaston.tpdlc2017.model.Documento;
  * Created by ppioli on 07/05/17.
  */
 public interface DocumentoService {
-    boolean exists(Documento doc);
+
+    boolean exists(String hash);
+
     void create(Documento doc);
+
+    Documento find(String hash);
 }

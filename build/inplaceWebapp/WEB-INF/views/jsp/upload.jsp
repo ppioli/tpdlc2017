@@ -43,15 +43,12 @@
 </div>
 
 <div class="container">
-
 	<form id="file-form" action="" method="POST">
 
         <input type="file" id="file-select" name="files" multiple/>
         <button type="submit" id="upload-button">Upload</button>
 
     </form>
-
-
 	<hr>
 	<footer>
 		<p>&copy; Mkyong.com 2015</p>

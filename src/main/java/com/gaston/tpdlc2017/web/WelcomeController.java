@@ -35,6 +35,7 @@ public class WelcomeController {
 		model.put("title", helloWorldService.getTitle(""));
 		model.put("msg", helloWorldService.getDesc());
 		model.put("palabra", palabraDAO.buscarPalabra(1));
+
 		return "index";
 	}
 

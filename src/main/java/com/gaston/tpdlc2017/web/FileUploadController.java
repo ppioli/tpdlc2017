@@ -41,9 +41,7 @@ public class FileUploadController {
 
     @RequestMapping(value="/upload", method=RequestMethod.GET)
     public String uploadFormView(Map<String, Object> model) {
-
         logger.debug("uploadFormView() is executed!");
-
         return "upload";
     }
 
@@ -51,20 +49,24 @@ public class FileUploadController {
     public @ResponseBody String handleFileUpload(@RequestParam("file") MultipartFile file){
         if (!file.isEmpty()) {
             try {
-
                 byte[] bytes = file.getBytes();
                 String hash = hashingService.hash(bytes);
-                Path path = Paths.get(UPLOADED_FOLDER + hash + ".dat" );
-                Files.write(path, bytes);
-                Documento documento = new Documento(null, file.getOriginalFilename(), hash);
-                documentoService.create(documento);
+                if(documentoService.exists(hash)){
+                    return "Documento ya fue indexado";
+                } else {
+                    //indexar el documento
+                    Path path = Paths.get(UPLOADED_FOLDER + hash + ".dat" );
+                    Files.write(path, bytes);
+                    Documento documento = new Documento(null, file.getOriginalFilename(), hash);
+                    documentoService.create(documento);
+                }
+
             } catch (IOException e) {
                 logger.error("Error while writing the file: ", e);
                 return "ERROR";
             }
         }
         return "OK";
-
     }
 
 }
