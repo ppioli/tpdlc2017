@@ -38,7 +38,7 @@ public class SearchService {
     */
     public static final int M = 5;
 
-    public static final String SQL = "SELECT documentos.id, documentos.name"+
+    public static final String SQL = "SELECT documentos.id, documentos.name, palabrasxdocumentos.frecuencia" +
             " FROM palabrasxdocumentos"+
             " INNER JOIN palabras ON palabras.id = palabrasxdocumentos.idPalabra"+
             " INNER JOIN documentos ON documentos.id = palabrasxdocumentos.idDocumento" +
@@ -87,13 +87,13 @@ public class SearchService {
                     Documento doc = new Documento( hash,
                             rs.getString(2),
                             hashService.hashToFileName(hash),
-                            p.getScore());
+                            p.getScore()*rs.getInt(3));
 
                     int ix = listaDocumentos.indexOf(doc);
                     if(ix == -1){
                         listaDocumentos.add( doc );
                     } else {
-                        listaDocumentos.get(ix).addScore(p.getScore());
+                        listaDocumentos.get(ix).addScore(p.getScore()*rs.getInt(3));
                     }
                 }
             }

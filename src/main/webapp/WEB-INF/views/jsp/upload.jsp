@@ -28,6 +28,8 @@
                 <label class="btn btn-default btn-file">
                     Seleccionar Archivos <input type="file" id="file-select"  style="display: none;" name="files" multiple/>
                 </label>
+                
+                <button  class="btn btn-default" type="submit" id="upload-button">Upload</button>
             </div>
         </div>
 
@@ -40,7 +42,7 @@
         </table>
         </div>
 
-        <button  class="btn btn-default" type="submit" id="upload-button">Upload</button>
+        
 
 </div>
 
