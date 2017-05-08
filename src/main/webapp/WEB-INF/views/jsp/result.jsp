@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Gradle + Spring MVC</title>
+<title>TPDLC</title>
 
 <spring:url value="/resources/core/css/base.css" var="coreCss" />
 <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapCss" />
@@ -13,42 +13,66 @@
 
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">Project Name</a>
-		</div>
-	</div>
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="<c:url value="/"/>">TPDLC2017Home</a>
+        </div>
+    </div>
 </nav>
 
-<div class="container" style="padding-top: 100px">
-	<form id="file-form" action="" method="POST">
-        <div class="row">
-            <div class="col-md-3">
-                <h3> Resultados</h3>
-            </div>
-        </div>
+<div class="container" style="padding-top: 150px">
 
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h1 class="text-center">Mis Documentos</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <form action="<c:url value="/search"/>" method ="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" name = "query" placeholder="Buscar">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-success">
+                            Buscar
+                        </button>
+                    </span>
+                </div>
+            </from>           
+        </div>
+    </div> 
+    <div class="row">
+        <div class="col-md-3">
+            <h3> Resultados</h3>
+        </div>
+    </div>
+    <c:if test="${not empty documentos}">
         <div id="tableDiv" class="row">
         <table  class="table">
-        <thead><tr><td>Nombre</td><td>Ver</td></tr></thead>
-        <tbody>
-        <c:forEach items="${documentos}" var="documento">
-            <tr>
-                <td>${documento.getName()}</td>
-                <td><a href="<c:url value="/resources/uploads/${documento.getPath()}"/>">Link</a></td>
-            </tr>
-        </c:forEach>
-        </tbody>
-        </table>
+            <thead><tr><td>Nombre</td><td>Ver</td></tr></thead>
+            <tbody>
+                <c:forEach items="${documentos}" var="documento">
+                    <tr>
+                        <td>${documento.getName()}</td>
+                        <td><a href="<c:url value="/resources/uploads/${documento.getPath()}"/>">Link</a></td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+         </table>
         </div>
-
-        <button  class="btn btn-default" type="submit" id="upload-button">Upload</button>
-
-    </form>
+    </c:if>
+    <c:if test="${empty documentos}">
+        <div class="alert alert-danger" role="alert">
+          <span class="sr-only">Error:</span>
+          ${error}
+        </div>
+    </c:if>
 	<hr>
-	<footer>
-		<p>&copy; TPDLC 2017</p>
-	</footer>
+    <div class="row">
+        <div class="col-md-offset-10 col-md-2">
+            <a href="<c:url value="/upload"/>" class="btn btn-default">Agregar Documentos</a>
+        </div>
+    </div>
 </div>
 
 <spring:url value="/resources/core/js/bootstrap.min.js" var="bootstrapJs" />

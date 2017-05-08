@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Gradle + Spring MVC</title>
+<title>TPDLC</title>
 
 <spring:url value="/resources/core/css/base.css" var="coreCss" />
 <spring:url value="/resources/core/css/bootstrap.min.css" var="bootstrapCss" />
@@ -11,12 +11,13 @@
 <link href="${coreCss}" rel="stylesheet" />
 </head>
 
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
-	<div class="container">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">Project Name</a>
-		</div>
-	</div>
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="<c:url value="/"/>">TPDLC2017Home</a>
+        </div>
+    </div>
 </nav>
 
 <div class="container" style="padding-top: 100px">
@@ -41,14 +42,10 @@
 
         <button  class="btn btn-default" type="submit" id="upload-button">Upload</button>
 
-    </form>
-	<hr>
-	<footer>
-		<p>&copy; TPDLC 2017</p>
-	</footer>
 </div>
 
 <spring:url value="/resources/core/js/upload.js" var="coreJs" />
+<spring:url value="/resources/core/img/spinner.gif" var="spinnerUrl" />
 <spring:url value="/resources/core/js/bootstrap.min.js" var="bootstrapJs" />
 <spring:url value="/resources/core/js/jquery.js" var="jQuery" />
 <script src="${jQuery}"></script>

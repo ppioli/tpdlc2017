@@ -33,6 +33,7 @@ function XhrManager(method, url){
         if(count<this.queue.length){
             var data = this.queue[count];
             var xhr = new XMLHttpRequest();
+             $("#row"+count+"status").html('Cargando');
             xhr.open(this.method, this.url, true);
             xhr.onload = function () {
               if (xhr.status === 200) {

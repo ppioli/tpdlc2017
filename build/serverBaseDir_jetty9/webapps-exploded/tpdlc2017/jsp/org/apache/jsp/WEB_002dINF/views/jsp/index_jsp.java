@@ -12,6 +12,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
   private static java.util.List<String> _jspx_dependants;
 
   private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_spring_url_var_value_nobody;
+  private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_c_url_value_nobody;
 
   private org.glassfish.jsp.api.ResourceInjector _jspx_resourceInjector;
 
@@ -21,10 +22,12 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
 
   public void _jspInit() {
     _jspx_tagPool_spring_url_var_value_nobody = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
+    _jspx_tagPool_c_url_value_nobody = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
   }
 
   public void _jspDestroy() {
     _jspx_tagPool_spring_url_var_value_nobody.release();
+    _jspx_tagPool_c_url_value_nobody.release();
   }
 
   public void _jspService(HttpServletRequest request, HttpServletResponse response)
@@ -56,7 +59,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<!DOCTYPE html>\n");
       out.write("<html lang=\"en\">\n");
       out.write("<head>\n");
-      out.write("<title>Gradle + Spring MVC</title>\n");
+      out.write("<title>TPDLC</title>\n");
       out.write("\n");
       if (_jspx_meth_spring_url_0(_jspx_page_context))
         return;
@@ -72,39 +75,55 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\" rel=\"stylesheet\" />\n");
       out.write("</head>\n");
       out.write("\n");
+      out.write("\n");
       out.write("<nav class=\"navbar navbar-inverse navbar-fixed-top\">\n");
-      out.write("\t<div class=\"container\">\n");
-      out.write("\t\t<div class=\"navbar-header\">\n");
-      out.write("\t\t\t<a class=\"navbar-brand\" href=\"#\">Project Name</a>\n");
-      out.write("\t\t</div>\n");
-      out.write("\t</div>\n");
-      out.write("</nav>\n");
-      out.write("\n");
-      out.write("\n");
-      out.write("<div class=\"container\" style=\"padding-top: 100px\">\n");
-      out.write("    <div class=\"row\">\n");
-      out.write("        <div class=\"col-md-8 col-md-offset-2\">\n");
-      out.write("            <div class=\"input-group\">\n");
-      out.write("                <input type=\"text\" class=\"form-control\" placeholder=\"Buscar\">\n");
-      out.write("                <span class=\"input-group-btn\">\n");
-      out.write("                    <button type=\"submit\" class=\"btn btn-success\">\n");
-      out.write("                            Buscar\n");
-      out.write("                    </button>\n");
-      out.write("                </span>\n");
-      out.write("            </div>\n");
-      out.write("            <div class=\"input-group row\">\n");
-      out.write("                <div type=\"text\" class=\"col-offset-10 col-md-2\">\n");
-      out.write("                    <button class=\"btn btn-default\">Agregar Documentos</button>\n");
-      out.write("                <div>\n");
-      out.write("            </div>\n");
+      out.write("    <div class=\"container\">\n");
+      out.write("        <div class=\"navbar-header\">\n");
+      out.write("            <a class=\"navbar-brand\" href=\"");
+      if (_jspx_meth_c_url_0(_jspx_page_context))
+        return;
+      out.write("\">TPDLC2017Home</a>\n");
       out.write("        </div>\n");
       out.write("    </div>\n");
+      out.write("</nav>\n");
       out.write("\n");
-      out.write("\t<hr>\n");
-      out.write("\t<footer>\n");
-      out.write("\t\t<p>&copy; TPDLC 2017</p>\n");
-      out.write("\t</footer>\n");
+      out.write("<div class=\"container\" style=\"padding-top: 100px\">\n");
+      out.write("\n");
+      out.write("    <div class=\"row\">\n");
+      out.write("        <div class=\"col-md-8 col-md-offset-2\">\n");
+      out.write("            <h1 class=\"text-center\">Mis Documentos</h1>\n");
+      out.write("        </div>\n");
+      out.write("    </div>\n");
+      out.write("    <div class=\"row\">\n");
+      out.write("        <div class=\"col-md-8 col-md-offset-2\">\n");
+      out.write("            <form action=\"");
+      if (_jspx_meth_c_url_1(_jspx_page_context))
+        return;
+      out.write("\" method =\"GET\">\n");
+      out.write("                <div class=\"input-group\">\n");
+      out.write("                    <input type=\"text\" class=\"form-control\" name = \"query\" placeholder=\"Buscar\"/>\n");
+      out.write("                    <span class=\"input-group-btn\">\n");
+      out.write("                        <button type=\"submit\" class=\"btn btn-success\">\n");
+      out.write("                            Buscar\n");
+      out.write("                        </button>\n");
+      out.write("                    </span>\n");
+      out.write("                </div>\n");
+      out.write("            </form>\n");
+      out.write("\n");
+      out.write("        </div>\n");
+      out.write("    </div>\n");
+      out.write("    <hr>\n");
+      out.write("    <div class=\"row\">\n");
+      out.write("        <div class=\"col-md-offset-10 col-md-2\">\n");
+      out.write("            <a href=\"");
+      if (_jspx_meth_c_url_2(_jspx_page_context))
+        return;
+      out.write("\" class=\"btn btn-default\">Agregar Documentos</a>\n");
+      out.write("        </div>\n");
+      out.write("    </div>\n");
       out.write("</div>\n");
+      out.write("\n");
+      out.write("\n");
       out.write("\n");
       if (_jspx_meth_spring_url_2(_jspx_page_context))
         return;
@@ -186,6 +205,60 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_th_spring_url_1.doFinally();
       _jspx_tagPool_spring_url_var_value_nobody.reuse(_jspx_th_spring_url_1);
     }
+    return false;
+  }
+
+  private boolean _jspx_meth_c_url_0(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  c:url
+    org.apache.taglibs.standard.tag.rt.core.UrlTag _jspx_th_c_url_0 = (org.apache.taglibs.standard.tag.rt.core.UrlTag) _jspx_tagPool_c_url_value_nobody.get(org.apache.taglibs.standard.tag.rt.core.UrlTag.class);
+    _jspx_th_c_url_0.setPageContext(_jspx_page_context);
+    _jspx_th_c_url_0.setParent(null);
+    _jspx_th_c_url_0.setValue("/");
+    int _jspx_eval_c_url_0 = _jspx_th_c_url_0.doStartTag();
+    if (_jspx_th_c_url_0.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_c_url_value_nobody.reuse(_jspx_th_c_url_0);
+      return true;
+    }
+    _jspx_tagPool_c_url_value_nobody.reuse(_jspx_th_c_url_0);
+    return false;
+  }
+
+  private boolean _jspx_meth_c_url_1(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  c:url
+    org.apache.taglibs.standard.tag.rt.core.UrlTag _jspx_th_c_url_1 = (org.apache.taglibs.standard.tag.rt.core.UrlTag) _jspx_tagPool_c_url_value_nobody.get(org.apache.taglibs.standard.tag.rt.core.UrlTag.class);
+    _jspx_th_c_url_1.setPageContext(_jspx_page_context);
+    _jspx_th_c_url_1.setParent(null);
+    _jspx_th_c_url_1.setValue("/search");
+    int _jspx_eval_c_url_1 = _jspx_th_c_url_1.doStartTag();
+    if (_jspx_th_c_url_1.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_c_url_value_nobody.reuse(_jspx_th_c_url_1);
+      return true;
+    }
+    _jspx_tagPool_c_url_value_nobody.reuse(_jspx_th_c_url_1);
+    return false;
+  }
+
+  private boolean _jspx_meth_c_url_2(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  c:url
+    org.apache.taglibs.standard.tag.rt.core.UrlTag _jspx_th_c_url_2 = (org.apache.taglibs.standard.tag.rt.core.UrlTag) _jspx_tagPool_c_url_value_nobody.get(org.apache.taglibs.standard.tag.rt.core.UrlTag.class);
+    _jspx_th_c_url_2.setPageContext(_jspx_page_context);
+    _jspx_th_c_url_2.setParent(null);
+    _jspx_th_c_url_2.setValue("/upload");
+    int _jspx_eval_c_url_2 = _jspx_th_c_url_2.doStartTag();
+    if (_jspx_th_c_url_2.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_c_url_value_nobody.reuse(_jspx_th_c_url_2);
+      return true;
+    }
+    _jspx_tagPool_c_url_value_nobody.reuse(_jspx_th_c_url_2);
     return false;
   }
 

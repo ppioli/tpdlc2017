@@ -4,7 +4,7 @@ package com.gaston.tpdlc2017.model;
  * Created by ppioli on 07/05/17.
  */
 public class Palabra {
-    public static final double MIN = 0.1;
+    public static final double MIN = 0.01;
     private byte[] id;
     private String valor;
     private int cuentaMaxima;
@@ -47,11 +47,27 @@ public class Palabra {
         this.id = id;
     }
 
+    public int getDocCount() {
+        return docCount;
+    }
+
+    public void setDocCount(int docCount) {
+        this.docCount = docCount;
+    }
+
+    public int getTotalDoc() {
+        return totalDoc;
+    }
+
+    public void setTotalDoc(int totalDoc) {
+        this.totalDoc = totalDoc;
+    }
+
     public boolean isStopWord() {
         return getScore() < MIN;
     }
 
     public double getScore(){
-        return Math.log10( totalDoc / docCount);
+        return Math.log10( (double)totalDoc / (double)docCount);
     }
 }

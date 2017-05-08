@@ -12,6 +12,7 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
   private static java.util.List<String> _jspx_dependants;
 
   private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_spring_url_var_value_nobody;
+  private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_c_url_value_nobody;
 
   private org.glassfish.jsp.api.ResourceInjector _jspx_resourceInjector;
 
@@ -21,10 +22,12 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
 
   public void _jspInit() {
     _jspx_tagPool_spring_url_var_value_nobody = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
+    _jspx_tagPool_c_url_value_nobody = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
   }
 
   public void _jspDestroy() {
     _jspx_tagPool_spring_url_var_value_nobody.release();
+    _jspx_tagPool_c_url_value_nobody.release();
   }
 
   public void _jspService(HttpServletRequest request, HttpServletResponse response)
@@ -56,7 +59,7 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("<!DOCTYPE html>\n");
       out.write("<html lang=\"en\">\n");
       out.write("<head>\n");
-      out.write("<title>Gradle + Spring MVC</title>\n");
+      out.write("<title>TPDLC</title>\n");
       out.write("\n");
       if (_jspx_meth_spring_url_0(_jspx_page_context))
         return;
@@ -72,12 +75,16 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\" rel=\"stylesheet\" />\n");
       out.write("</head>\n");
       out.write("\n");
+      out.write("\n");
       out.write("<nav class=\"navbar navbar-inverse navbar-fixed-top\">\n");
-      out.write("\t<div class=\"container\">\n");
-      out.write("\t\t<div class=\"navbar-header\">\n");
-      out.write("\t\t\t<a class=\"navbar-brand\" href=\"#\">Project Name</a>\n");
-      out.write("\t\t</div>\n");
-      out.write("\t</div>\n");
+      out.write("    <div class=\"container\">\n");
+      out.write("        <div class=\"navbar-header\">\n");
+      out.write("            <a class=\"navbar-brand\" href=\"");
+      if (_jspx_meth_c_url_0(_jspx_page_context))
+        return;
+      out.write("\">TPDLC2017Home</a>\n");
+      out.write("        </div>\n");
+      out.write("    </div>\n");
       out.write("</nav>\n");
       out.write("\n");
       out.write("<div class=\"container\" style=\"padding-top: 100px\">\n");
@@ -102,11 +109,6 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("        <button  class=\"btn btn-default\" type=\"submit\" id=\"upload-button\">Upload</button>\n");
       out.write("\n");
-      out.write("    </form>\n");
-      out.write("\t<hr>\n");
-      out.write("\t<footer>\n");
-      out.write("\t\t<p>&copy; TPDLC 2017</p>\n");
-      out.write("\t</footer>\n");
       out.write("</div>\n");
       out.write("\n");
       if (_jspx_meth_spring_url_2(_jspx_page_context))
@@ -116,6 +118,9 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
         return;
       out.write('\n');
       if (_jspx_meth_spring_url_4(_jspx_page_context))
+        return;
+      out.write('\n');
+      if (_jspx_meth_spring_url_5(_jspx_page_context))
         return;
       out.write("\n");
       out.write("<script src=\"");
@@ -197,6 +202,24 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
     return false;
   }
 
+  private boolean _jspx_meth_c_url_0(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  c:url
+    org.apache.taglibs.standard.tag.rt.core.UrlTag _jspx_th_c_url_0 = (org.apache.taglibs.standard.tag.rt.core.UrlTag) _jspx_tagPool_c_url_value_nobody.get(org.apache.taglibs.standard.tag.rt.core.UrlTag.class);
+    _jspx_th_c_url_0.setPageContext(_jspx_page_context);
+    _jspx_th_c_url_0.setParent(null);
+    _jspx_th_c_url_0.setValue("/");
+    int _jspx_eval_c_url_0 = _jspx_th_c_url_0.doStartTag();
+    if (_jspx_th_c_url_0.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+      _jspx_tagPool_c_url_value_nobody.reuse(_jspx_th_c_url_0);
+      return true;
+    }
+    _jspx_tagPool_c_url_value_nobody.reuse(_jspx_th_c_url_0);
+    return false;
+  }
+
   private boolean _jspx_meth_spring_url_2(PageContext _jspx_page_context)
           throws Throwable {
     PageContext pageContext = _jspx_page_context;
@@ -232,8 +255,8 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
     org.springframework.web.servlet.tags.UrlTag _jspx_th_spring_url_3 = (org.springframework.web.servlet.tags.UrlTag) _jspx_tagPool_spring_url_var_value_nobody.get(org.springframework.web.servlet.tags.UrlTag.class);
     _jspx_th_spring_url_3.setPageContext(_jspx_page_context);
     _jspx_th_spring_url_3.setParent(null);
-    _jspx_th_spring_url_3.setValue("/resources/core/js/bootstrap.min.js");
-    _jspx_th_spring_url_3.setVar("bootstrapJs");
+    _jspx_th_spring_url_3.setValue("/resources/core/img/spinner.gif");
+    _jspx_th_spring_url_3.setVar("spinnerUrl");
     int[] _jspx_push_body_count_spring_url_3 = new int[] { 0 };
     try {
       int _jspx_eval_spring_url_3 = _jspx_th_spring_url_3.doStartTag();
@@ -259,8 +282,8 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
     org.springframework.web.servlet.tags.UrlTag _jspx_th_spring_url_4 = (org.springframework.web.servlet.tags.UrlTag) _jspx_tagPool_spring_url_var_value_nobody.get(org.springframework.web.servlet.tags.UrlTag.class);
     _jspx_th_spring_url_4.setPageContext(_jspx_page_context);
     _jspx_th_spring_url_4.setParent(null);
-    _jspx_th_spring_url_4.setValue("/resources/core/js/jquery.js");
-    _jspx_th_spring_url_4.setVar("jQuery");
+    _jspx_th_spring_url_4.setValue("/resources/core/js/bootstrap.min.js");
+    _jspx_th_spring_url_4.setVar("bootstrapJs");
     int[] _jspx_push_body_count_spring_url_4 = new int[] { 0 };
     try {
       int _jspx_eval_spring_url_4 = _jspx_th_spring_url_4.doStartTag();
@@ -274,6 +297,33 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
     } finally {
       _jspx_th_spring_url_4.doFinally();
       _jspx_tagPool_spring_url_var_value_nobody.reuse(_jspx_th_spring_url_4);
+    }
+    return false;
+  }
+
+  private boolean _jspx_meth_spring_url_5(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  spring:url
+    org.springframework.web.servlet.tags.UrlTag _jspx_th_spring_url_5 = (org.springframework.web.servlet.tags.UrlTag) _jspx_tagPool_spring_url_var_value_nobody.get(org.springframework.web.servlet.tags.UrlTag.class);
+    _jspx_th_spring_url_5.setPageContext(_jspx_page_context);
+    _jspx_th_spring_url_5.setParent(null);
+    _jspx_th_spring_url_5.setValue("/resources/core/js/jquery.js");
+    _jspx_th_spring_url_5.setVar("jQuery");
+    int[] _jspx_push_body_count_spring_url_5 = new int[] { 0 };
+    try {
+      int _jspx_eval_spring_url_5 = _jspx_th_spring_url_5.doStartTag();
+      if (_jspx_th_spring_url_5.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+        return true;
+      }
+    } catch (Throwable _jspx_exception) {
+      while (_jspx_push_body_count_spring_url_5[0]-- > 0)
+        out = _jspx_page_context.popBody();
+      _jspx_th_spring_url_5.doCatch(_jspx_exception);
+    } finally {
+      _jspx_th_spring_url_5.doFinally();
+      _jspx_tagPool_spring_url_var_value_nobody.reuse(_jspx_th_spring_url_5);
     }
     return false;
   }

@@ -6,15 +6,22 @@ import java.util.Arrays;
  * Created by ppioli on 07/05/17.
  */
 
-public class Documento {
+public class Documento implements Comparable<Documento>{
 
     private String name;
     private byte[] id;
     private String path;
-    public Documento(byte[] id, String name, String path) {
+    private double score;
+
+    public Documento(byte[] id, String name, String path, double score) {
         this.id = id;
         this.name = name;
         this.path = path;
+        this.score = score;
+    }
+
+    public Documento(byte[] id, String name, String path){
+        this(id, name, path, 0);
     }
 
     public String getName() {
@@ -51,8 +58,29 @@ public class Documento {
         return Arrays.equals(id, documento.id);
     }
 
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public void addScore(double score){
+        this.score += score;
+    }
+
     @Override
     public int hashCode() {
         return Arrays.hashCode(id);
+    }
+
+
+    @Override
+    public int compareTo(Documento o) {
+        double scoreB = o.getScore();
+        if(getScore() < scoreB) return 1;
+        else if (getScore() > scoreB ) return -1;
+        return 0; //should never happend
     }
 }

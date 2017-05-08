@@ -63,7 +63,6 @@ public class ServicioPalabraImpl implements ServicioPalabra {
                             rs.getInt("maxCount"),
                             rs.getInt("docCount"),
                             totalDocuments);
-                    logger.info(String.format("Palabra: %s  - Valor: %.2f", pal.getValor(), pal.getScore()));
                     if(!pal.isStopWord()){
                         lista.add(pal);
                     }
@@ -78,6 +77,9 @@ public class ServicioPalabraImpl implements ServicioPalabra {
                 else if (scoreB < scoreA ) return -1;
                 return 0; //should never happend
             });
+            lista.forEach(pal -> logger.info(String.format("Palabra: %s  - Valor: %.2f( %d / %d )",
+                    pal.getValor(), pal.getScore(),
+                    pal.getDocCount(), pal.getTotalDoc())));
             return lista;
         } catch (SQLException e) {
             logger.error(e.getMessage());

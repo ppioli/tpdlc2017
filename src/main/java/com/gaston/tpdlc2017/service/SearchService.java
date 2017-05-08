@@ -86,12 +86,18 @@ public class SearchService {
                     byte[] hash = rs.getBytes(1);
                     Documento doc = new Documento( hash,
                             rs.getString(2),
-                            hashService.hashToFileName(hash));
-                    if(!listaDocumentos.contains(doc) ){
+                            hashService.hashToFileName(hash),
+                            p.getScore());
+
+                    int ix = listaDocumentos.indexOf(doc);
+                    if(ix == -1){
                         listaDocumentos.add( doc );
+                    } else {
+                        listaDocumentos.get(ix).addScore(p.getScore());
                     }
                 }
             }
+            Collections.sort(listaDocumentos);
             return listaDocumentos;
         } catch (SQLException ex) {
             Logger.getLogger(SearchService.class.getName()).log(Level.SEVERE, null, ex);
