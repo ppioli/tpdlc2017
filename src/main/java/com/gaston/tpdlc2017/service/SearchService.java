@@ -10,12 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.print.Doc;
 import javax.sql.DataSource;
 
 import com.gaston.tpdlc2017.model.Palabra;
@@ -86,10 +84,12 @@ public class SearchService {
                 ResultSet rs = ps.executeQuery();
                 while(rs.next()){
                     byte[] hash = rs.getBytes(1);
-                    listaDocumentos.add( new Documento( hash,
+                    Documento doc = new Documento( hash,
                             rs.getString(2),
-                            hashService.hashToFileName(hash))
-                    );
+                            hashService.hashToFileName(hash));
+                    if(!listaDocumentos.contains(doc) ){
+                        listaDocumentos.add( doc );
+                    }
                 }
             }
             return listaDocumentos;

@@ -11,6 +11,7 @@
 <link href="${coreCss}" rel="stylesheet" />
 </head>
 
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
@@ -19,7 +20,7 @@
 	</div>
 </nav>
 
-<div class="container">
+<div class="container" style="padding-top: 100px">
 	<form id="file-form" action="" method="POST">
         <div class="row">
             <div class="col-md-3">
@@ -34,7 +35,7 @@
         <c:forEach items="${documentos}" var="documento">
             <tr>
                 <td>${documento.getName()}</td>
-                <td><a href="/show/file/${documento.getPath()}">Link</a></td>
+                <td><a href="<c:url value="/resources/uploads/${documento.getPath()}"/>">Link</a></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -46,7 +47,7 @@
     </form>
 	<hr>
 	<footer>
-		<p>&copy; Mkyong.com 2015</p>
+		<p>&copy; TPDLC 2017</p>
 	</footer>
 </div>
 

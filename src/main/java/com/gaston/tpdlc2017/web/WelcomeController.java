@@ -2,6 +2,7 @@ package com.gaston.tpdlc2017.web;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.gaston.tpdlc2017.model.Documento;
 import com.gaston.tpdlc2017.service.ServicioPalabra;
@@ -30,16 +31,16 @@ public class WelcomeController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(Map<String, Object> model) {
-
+		/*
 		logger.debug("index() is executed!");
-		List<Documento> documentos = searchService.search(new String[] {"hold", "the", "door", "engine"});
+		List<Documento> documentos = searchService.search(new String[] {"murmaider", "the", "water", "god"});
 		logger.debug("Cantidad de documentos"+documentos.size());
 		for(Documento doc : documentos) {
 			logger.info("Encontro un documento " + doc.getPath());
 		}
-		model.put("documentos", documentos);
+		model.put("documentos", documentos);*/
 
-		return "result";
+		return "index";
 	}
 
 	@RequestMapping(value = "/hello/{name:.+}", method = RequestMethod.GET)
@@ -51,6 +52,19 @@ public class WelcomeController {
 		model.setViewName("index");
 		searchService.search(new String[] {name.toLowerCase()});
 		
+		return model;
+
+	}
+
+	@RequestMapping(value = "/show/{filename:.+}", method = RequestMethod.GET)
+	public ModelAndView showFile(@PathVariable("filename") String fileName) {
+
+		logger.debug("hello() is executed - $name {}", fileName);
+
+		ModelAndView model = new ModelAndView();
+		model.setViewName("index");
+
+
 		return model;
 
 	}

@@ -19,55 +19,46 @@
 	</div>
 </nav>
 
-<div class="jumbotron">
-	<div class="container">
-		<h1>${title}</h1>
-		<p>
-			<c:if test="${not empty msg}">
-				Hello ${msg}
-			</c:if>
 
-
-			<c:if test="${empty msg}">
-				Welcome Welcome!
-			</c:if>
-		</p>
-		<p>
-			<a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-		</p>
-	</div>
-</div>
-
-<div class="container">
-
-	<div class="row">
-		<div class="col-md-4">
-			<h2>Heading</h2>
-			<p>ABC</p>
-			<p>
-				<a class="btn btn-default" href="#" role="button">View details</a>
-			</p>
-		</div>
-		<div class="col-md-4">
-			<h2>Heading</h2>
-			<p>ABC</p>
-			<p>
-				<a class="btn btn-default" href="#" role="button">View details</a>
-			</p>
-		</div>
-		<div class="col-md-4">
-			<h2>Heading</h2>
-			<p>ABC</p>
-			<p>
-				<a class="btn btn-default" href="#" role="button">View details</a>
-			</p>
-		</div>
-	</div>
-
+<div class="container" style="padding-top: 100px">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Buscar">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-success">
+                            Buscar
+                    </button>
+                </span>
+            </div>
+            <div class="input-group row">
+                <div type="text" class="col-offset-10 col-md-2">
+                    <button class="btn btn-default">Agregar Documentos</button>
+                <div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Buscar">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-success">
+                            Buscar
+                    </button>
+                </span>
+            </div>
+            <div class="input-group row">
+                <div type="text" class="col-offset-10 col-md-2">
+                    <button class="btn btn-default">Agregar Documentos</button>
+                <div>
+            </div>
+        </div>
+    </div>
 
 	<hr>
 	<footer>
-		<p>&copy; Mkyong.com 2015</p>
+		<p>&copy; TPDLC 2017</p>
 	</footer>
 </div>
 

@@ -1,5 +1,7 @@
 package com.gaston.tpdlc2017.model;
 
+import java.util.Arrays;
+
 /**
  * Created by ppioli on 07/05/17.
  */
@@ -37,5 +39,20 @@ public class Documento {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Documento documento = (Documento) o;
+
+        return Arrays.equals(id, documento.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(id);
     }
 }

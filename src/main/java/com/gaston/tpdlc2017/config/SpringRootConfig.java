@@ -8,8 +8,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.web.context.ServletContextAware;
 
-import java.nio.file.Path;  
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -18,11 +21,12 @@ import java.util.Base64;
 @Configuration
 @Import({DataBaseConfig.class})
 @ComponentScan({ "com.gaston.tpdlc2017.service" })
-public class SpringRootConfig {
+public class SpringRootConfig  implements ServletContextAware {
     private final Logger logger = LoggerFactory.getLogger(SpringRootConfig.class);
 
-   // public static final String docRepo = "/home/gaston/Documentos/uploads/"; //modificar
-    public static final String docRepo = "/resources/uploads/"; //modificar
+    public static final String docRepo = "/resources/uploads/";
+
+    private ServletContext context;
 
     @Bean
     public MessageDigest getMD5(){
@@ -36,7 +40,8 @@ public class SpringRootConfig {
 
     @Bean
     public Path baseUploadPath(){
-        return Paths.get(docRepo);
+        String base = context.getRealPath("/");
+        return Paths.get(base +  docRepo);
     }
 
     @Bean
@@ -44,4 +49,8 @@ public class SpringRootConfig {
         return Base64.getUrlEncoder();
     }
 
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+        this.context = servletContext;
+    }
 }

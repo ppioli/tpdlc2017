@@ -12,7 +12,6 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
   private static java.util.List<String> _jspx_dependants;
 
   private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_spring_url_var_value_nobody;
-  private org.apache.jasper.runtime.TagHandlerPool _jspx_tagPool_c_if_test;
 
   private org.glassfish.jsp.api.ResourceInjector _jspx_resourceInjector;
 
@@ -22,12 +21,10 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
 
   public void _jspInit() {
     _jspx_tagPool_spring_url_var_value_nobody = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
-    _jspx_tagPool_c_if_test = org.apache.jasper.runtime.TagHandlerPool.getTagHandlerPool(getServletConfig());
   }
 
   public void _jspDestroy() {
     _jspx_tagPool_spring_url_var_value_nobody.release();
-    _jspx_tagPool_c_if_test.release();
   }
 
   public void _jspService(HttpServletRequest request, HttpServletResponse response)
@@ -83,41 +80,13 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t</div>\n");
       out.write("</nav>\n");
       out.write("\n");
-      out.write("<div class=\"jumbotron\">\n");
-      out.write("\t<div class=\"container\">\n");
-      out.write("\t\t<h1>");
-      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${title}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-      out.write("</h1>\n");
-      out.write("\t\t<p>\n");
-      out.write("\t\t\t");
-      if (_jspx_meth_c_if_0(_jspx_page_context))
-        return;
-      out.write("\n");
-      out.write("\t\t\t");
-      if (_jspx_meth_c_if_1(_jspx_page_context))
-        return;
-      out.write("\n");
-      out.write("\n");
-      out.write("\t\t\t");
-      if (_jspx_meth_c_if_2(_jspx_page_context))
-        return;
-      out.write("\n");
-      out.write("\t\t</p>\n");
-      out.write("\t\t<p>\n");
-      out.write("\t\t\t<a class=\"btn btn-primary btn-lg\" href=\"#\" role=\"button\">Learn more</a>\n");
-      out.write("\t\t</p>\n");
-      out.write("\t</div>\n");
-      out.write("</div>\n");
-      out.write("\n");
-      out.write("<div class=\"container\">\n");
+      out.write("<div class=\"container\" style=\"padding-top: 100px\">\n");
       out.write("\t<form id=\"file-form\" action=\"\" method=\"POST\">\n");
       out.write("        <div class=\"row\">\n");
-      out.write("            <div class=\"col-md-3\">\n");
-      out.write("                <h3> Subir Archivos</h3>\n");
-      out.write("            </div>\n");
+      out.write("\n");
       out.write("            <div class=\"col-md-4\">\n");
       out.write("                <label class=\"btn btn-default btn-file\">\n");
-      out.write("                    Seleccionar <input type=\"file\" id=\"file-select\"  style=\"display: none;\" name=\"files\" multiple/>\n");
+      out.write("                    Seleccionar Archivos <input type=\"file\" id=\"file-select\"  style=\"display: none;\" name=\"files\" multiple/>\n");
       out.write("                </label>\n");
       out.write("            </div>\n");
       out.write("        </div>\n");
@@ -136,7 +105,7 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    </form>\n");
       out.write("\t<hr>\n");
       out.write("\t<footer>\n");
-      out.write("\t\t<p>&copy; Mkyong.com 2015</p>\n");
+      out.write("\t\t<p>&copy; TPDLC 2017</p>\n");
       out.write("\t</footer>\n");
       out.write("</div>\n");
       out.write("\n");
@@ -225,96 +194,6 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_th_spring_url_1.doFinally();
       _jspx_tagPool_spring_url_var_value_nobody.reuse(_jspx_th_spring_url_1);
     }
-    return false;
-  }
-
-  private boolean _jspx_meth_c_if_0(PageContext _jspx_page_context)
-          throws Throwable {
-    PageContext pageContext = _jspx_page_context;
-    JspWriter out = _jspx_page_context.getOut();
-    //  c:if
-    org.apache.taglibs.standard.tag.rt.core.IfTag _jspx_th_c_if_0 = (org.apache.taglibs.standard.tag.rt.core.IfTag) _jspx_tagPool_c_if_test.get(org.apache.taglibs.standard.tag.rt.core.IfTag.class);
-    _jspx_th_c_if_0.setPageContext(_jspx_page_context);
-    _jspx_th_c_if_0.setParent(null);
-    _jspx_th_c_if_0.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty msg}", java.lang.Boolean.class, (PageContext)_jspx_page_context, null)).booleanValue());
-    int _jspx_eval_c_if_0 = _jspx_th_c_if_0.doStartTag();
-    if (_jspx_eval_c_if_0 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
-      do {
-        out.write("\n");
-        out.write("\t\t\t\tHello ");
-        out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${msg}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\n");
-        out.write("\t\t\t");
-        int evalDoAfterBody = _jspx_th_c_if_0.doAfterBody();
-        if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
-          break;
-      } while (true);
-    }
-    if (_jspx_th_c_if_0.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
-      _jspx_tagPool_c_if_test.reuse(_jspx_th_c_if_0);
-      return true;
-    }
-    _jspx_tagPool_c_if_test.reuse(_jspx_th_c_if_0);
-    return false;
-  }
-
-  private boolean _jspx_meth_c_if_1(PageContext _jspx_page_context)
-          throws Throwable {
-    PageContext pageContext = _jspx_page_context;
-    JspWriter out = _jspx_page_context.getOut();
-    //  c:if
-    org.apache.taglibs.standard.tag.rt.core.IfTag _jspx_th_c_if_1 = (org.apache.taglibs.standard.tag.rt.core.IfTag) _jspx_tagPool_c_if_test.get(org.apache.taglibs.standard.tag.rt.core.IfTag.class);
-    _jspx_th_c_if_1.setPageContext(_jspx_page_context);
-    _jspx_th_c_if_1.setParent(null);
-    _jspx_th_c_if_1.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty palabra}", java.lang.Boolean.class, (PageContext)_jspx_page_context, null)).booleanValue());
-    int _jspx_eval_c_if_1 = _jspx_th_c_if_1.doStartTag();
-    if (_jspx_eval_c_if_1 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
-      do {
-        out.write("\n");
-        out.write("                    Palabra ");
-        out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${palabra.getValor()}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write(" Cuenta ");
-        out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${palabra.getCuentaMaxima()}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\n");
-        out.write("            ");
-        int evalDoAfterBody = _jspx_th_c_if_1.doAfterBody();
-        if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
-          break;
-      } while (true);
-    }
-    if (_jspx_th_c_if_1.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
-      _jspx_tagPool_c_if_test.reuse(_jspx_th_c_if_1);
-      return true;
-    }
-    _jspx_tagPool_c_if_test.reuse(_jspx_th_c_if_1);
-    return false;
-  }
-
-  private boolean _jspx_meth_c_if_2(PageContext _jspx_page_context)
-          throws Throwable {
-    PageContext pageContext = _jspx_page_context;
-    JspWriter out = _jspx_page_context.getOut();
-    //  c:if
-    org.apache.taglibs.standard.tag.rt.core.IfTag _jspx_th_c_if_2 = (org.apache.taglibs.standard.tag.rt.core.IfTag) _jspx_tagPool_c_if_test.get(org.apache.taglibs.standard.tag.rt.core.IfTag.class);
-    _jspx_th_c_if_2.setPageContext(_jspx_page_context);
-    _jspx_th_c_if_2.setParent(null);
-    _jspx_th_c_if_2.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${empty msg}", java.lang.Boolean.class, (PageContext)_jspx_page_context, null)).booleanValue());
-    int _jspx_eval_c_if_2 = _jspx_th_c_if_2.doStartTag();
-    if (_jspx_eval_c_if_2 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
-      do {
-        out.write("\n");
-        out.write("\t\t\t\tWelcome Welcome!\n");
-        out.write("\t\t\t");
-        int evalDoAfterBody = _jspx_th_c_if_2.doAfterBody();
-        if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
-          break;
-      } while (true);
-    }
-    if (_jspx_th_c_if_2.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
-      _jspx_tagPool_c_if_test.reuse(_jspx_th_c_if_2);
-      return true;
-    }
-    _jspx_tagPool_c_if_test.reuse(_jspx_th_c_if_2);
     return false;
   }
 

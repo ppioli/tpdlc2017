@@ -35,6 +35,7 @@ public class IndexadorDocumentos {
     private DocumentoService servicioDocumento;
     private DataSource dataSource;
 
+
     @Autowired
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -123,9 +124,7 @@ public class IndexadorDocumentos {
             // write file
             logger.info(String.format("Copiando el archivo"));
             Path filePath = fileRepo.resolve( hashingService.hashToFileName(fileHash));
-            File f = new File("/resources/test.txt");
-            if(!f.exists())
-                f.createNewFile();
+            logger.info( "Writing file to "+ filePath);
             Files.write(filePath, fileData);
             logger.info(String.format("Consolidando cambios"));
             conn.commit();

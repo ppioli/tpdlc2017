@@ -19,36 +19,13 @@
 	</div>
 </nav>
 
-<div class="jumbotron">
-	<div class="container">
-		<h1>${title}</h1>
-		<p>
-			<c:if test="${not empty msg}">
-				Hello ${msg}
-			</c:if>
-			<c:if test="${not empty palabra}">
-                    Palabra ${palabra.getValor()} Cuenta ${palabra.getCuentaMaxima()}
-            </c:if>
-
-			<c:if test="${empty msg}">
-				Welcome Welcome!
-			</c:if>
-		</p>
-		<p>
-			<a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-		</p>
-	</div>
-</div>
-
-<div class="container">
+<div class="container" style="padding-top: 100px">
 	<form id="file-form" action="" method="POST">
         <div class="row">
-            <div class="col-md-3">
-                <h3> Subir Archivos</h3>
-            </div>
+
             <div class="col-md-4">
                 <label class="btn btn-default btn-file">
-                    Seleccionar <input type="file" id="file-select"  style="display: none;" name="files" multiple/>
+                    Seleccionar Archivos <input type="file" id="file-select"  style="display: none;" name="files" multiple/>
                 </label>
             </div>
         </div>
@@ -67,7 +44,7 @@
     </form>
 	<hr>
 	<footer>
-		<p>&copy; Mkyong.com 2015</p>
+		<p>&copy; TPDLC 2017</p>
 	</footer>
 </div>
 
