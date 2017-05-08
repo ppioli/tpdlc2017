@@ -18,15 +18,11 @@ import java.sql.Statement;
  */
 @Service
 public class ServicioPalabraImpl implements ServicioPalabra {
-
     private final Logger logger = LoggerFactory.getLogger(ServicioPalabraImpl.class);
-    private DataSource dataSource;
-    private HashingService hashService;
 
-    @Autowired
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
+    public static final String CREATE_OR_UPDATE= "INSERT INTO palabras (id, val) VALUES ( ?, ? ) ON DUPLICATE KEY UPDATE id=id";
+
+    private HashingService hashService;
 
     @Autowired
     public void setHashService(HashingService hashService) {
@@ -34,146 +30,29 @@ public class ServicioPalabraImpl implements ServicioPalabra {
     }
 
     @Override
-    public Palabra get(byte[] hash) {
-        String selectSQL = "SELECT id, val, maxCount FROM palabras WHERE hash = ?";
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        try {
-            conn = dataSource.getConnection();
-            pstmt = conn.prepareStatement(selectSQL);
-            pstmt.setBytes(1, hash);
-            rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return new Palabra(rs.getInt("id"),
-                        rs.getString("val"),
-                        rs.getInt("maxCount"));
-            } else {
-                return null;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                }
-            }
-        }
+    public void createOrUpdate(String valor, Connection conn) throws SQLException {
+
+        byte[] hash = hashService.hash(valor);
+        PreparedStatement ps = conn.prepareStatement(CREATE_OR_UPDATE);
+
+        ps.setBytes(1, hash);
+        ps.setString(2, valor);
+
+        ps.executeUpdate();
 
     }
 
     @Override
-    public Palabra createOrUpdate(String valor, int count) {
+    public PreparedStatement batchCreateOrUpdate(Iterable<String> it, Connection conn) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement(CREATE_OR_UPDATE);
+        for (String st : it) {
+            byte[] hash = hashService.hash(st);
+            ps.setBytes(1, hash);
+            ps.setString(2, st);
+            ps.addBatch();
 
-        byte[] hash = hashService.hash(valor);
-        Palabra pal = this.exists(hash);
-        if (pal != null) {
-            //update
-            if (pal.getCuentaMaxima() < count) {
-                String updateTableSQL = "UPDATE palabras SET maxCount = ? WHERE id = ?";
-                Connection conn = null;
-                try {
-                    conn = dataSource.getConnection();
-                    PreparedStatement ps = conn.prepareStatement(updateTableSQL, Statement.RETURN_GENERATED_KEYS);
-                    
-                    ps.setInt(1, count);
-                    ps.setInt(2, pal.getId());
-                    ps.executeUpdate();
-                    ps.close();
-                    
-                    //actualizar pal
-                    pal.setCuentaMaxima(count);
-                    return pal; //count es el max por ser la primera vez que se ingresa
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                } finally {
-                    if (conn != null) {
-                        try {
-                            conn.close();
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            } else {
-                return pal; 
-            }
-        } else {
-        
-        String sqlNew = "INSERT INTO palabras (maxCount, val, hash) VALUES (?, ?, ?)";
-        Connection conn = null;
-
-        try {
-            conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sqlNew, Statement.RETURN_GENERATED_KEYS);
-
-            ps.setInt(1, count);
-            ps.setString(2, valor);
-            ps.setBytes(3, hash);
-            ps.executeUpdate();
-
-            ResultSet rs = ps.getGeneratedKeys();
-            int id = -1;
-            if (rs.next()) {
-                id = rs.getInt(1);
-            }
-
-            ps.close();
-            return new Palabra(id, valor, count); //count es el max por ser la primera vez que se ingresa
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
         }
+        return ps;
     }
 
-}
-
-@Override
-        public Palabra exists(byte[] hash) {
-        String selectSQL = "SELECT * FROM palabras WHERE hash = ?";
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        try {
-            conn = dataSource.getConnection();
-            pstmt = conn.prepareStatement(selectSQL);
-            pstmt.setBytes(1, hash);
-            rs = pstmt.executeQuery();
-            if (rs.next()) {
-                int numberOfRows = rs.getInt(1);
-                logger.info("Number of rows "+ numberOfRows);
-                Palabra pal = new Palabra(rs.getInt("id"), rs.getString("val"), rs.getInt("maxCount"));
-                return pal;
-            } else {
-                return null;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    }
 }

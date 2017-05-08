@@ -7,20 +7,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import javax.sql.DataSource;
 
@@ -35,6 +30,7 @@ public class IndexadorDocumentos {
     private Path fileRepo;
     private HashingService hashingService;
     private ServicioPalabra servicioPalabra;
+    private DocumentoService servicioDocumento;
     private DataSource dataSource;
 
     @Autowired
@@ -53,75 +49,85 @@ public class IndexadorDocumentos {
     }
 
     @Autowired
+    public void setServicioDocumento(DocumentoService servicioDocumento) {
+        this.servicioDocumento = servicioDocumento;
+    }
+
+    @Autowired
     public void setHashingService(HashingService hashingService) {
         this.hashingService = hashingService;
     }
 
-    public boolean indexar(Documento doc) throws IOException {
-        Map<String, Integer> freqMap = new HashMap<>();
-        Path filePath = fileRepo.resolve(hashingService.hashToFileName(doc.getHash()));
-        final FileReader fr = new FileReader(filePath.toFile());
-        final BufferedReader br = new BufferedReader(fr);
-        do {
-            String linea = br.readLine();
-            if (linea == null) {
-                break;
-            }
-            String[] palabrasDeLaLinea = linea.split("[^a-zA-Záéíóúñ0-9]");
-            for (String palabra : palabrasDeLaLinea) {                             //por cada palabra de la linea
-                if (palabra.length() > 1 && !palabra.matches(".*[0-9].*")) {      //elimino letras, espacios y numeros
-                    palabra = palabra.toLowerCase();                                //elimino mayusculas
-                    if (freqMap.containsKey(palabra)) {
-                        freqMap.put(palabra, freqMap.get(palabra) + 1);
-                    } else {
-                        freqMap.put(palabra, 1);
+    public String indexar(byte[] data, String name, byte[] hash)  {
+
+        HashMap<String, Integer> freqMap = new HashMap<>();
+        ByteArrayInputStream reader = new ByteArrayInputStream(data);
+        DataInputStream input = new DataInputStream(reader);
+        BufferedReader br = new BufferedReader(new InputStreamReader(input));
+        String line = null;
+        try {
+            line = br.readLine();
+            while (line != null) {
+                String[] palabrasDeLaLinea = line.split("[^a-zA-Záéíóúñ0-9]");
+                for (String palabra : palabrasDeLaLinea) {                             //por cada palabra de la linea
+                    if (palabra.length() > 1 && !palabra.matches(".*[0-9].*")) {      //elimino letras, espacios y numeros
+                        palabra = palabra.toLowerCase();                                //elimino mayusculas
+                        if (freqMap.containsKey(palabra)) {
+                            freqMap.put(palabra, freqMap.get(palabra) + 1);
+                        } else {
+                            freqMap.put(palabra, 1);
+                        }
                     }
                 }
+                line = br.readLine();
             }
-        } while (true);
+        } catch (IOException e) {
+            return e.getMessage();
+        }
         for (Map.Entry entry : freqMap.entrySet()) {
             logger.info(entry.getKey() + " -> " + entry.getValue());
-
         }
-        return insertIntoDB(freqMap, doc);
+        return insertIntoDB(freqMap, name, data, hash);
     }
 
-    private boolean insertIntoDB(Map<String, Integer> freqMap, Documento doc) {
+    private String insertIntoDB(HashMap<String, Integer> freqMap, String name, byte[] data, byte[] docHash) {
 
         String sqlNew = "INSERT INTO palabrasxdocumentos (idPalabra, idDocumento, frecuencia) VALUES (?, ?, ?)";
-        Connection conn = null;
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sqlNew))
+        {
+            conn.setAutoCommit(false);
+            Set<String> palabras = freqMap.keySet();
 
-        try {
-            conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sqlNew, Statement.RETURN_GENERATED_KEYS);
-            List<Palabra> list = new LinkedList<>();
+            PreparedStatement palabrasBatch = servicioPalabra.batchCreateOrUpdate(palabras, conn);
 
-            for (Map.Entry<String, Integer> entry : freqMap.entrySet()) {
-                Palabra pal = servicioPalabra.createOrUpdate(entry.getKey(), entry.getValue());
-                //por cada entry del map, agregar una fila
-                ps.setInt(1, pal.getId());
-                ps.setInt(2, doc.getId());
-                ps.setInt(3, pal.getCuentaMaxima());
+
+            for (Map.Entry<String, Integer> entry : freqMap.entrySet()){
+                ps.setBytes(1, hashingService.hash(entry.getKey()));
+                ps.setBytes(2, docHash);
+                ps.setInt(3, entry.getValue());
                 ps.addBatch();
-                }
-            ps.executeBatch();
-            ps.close();
-            return true;
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
             }
-        }
-        }
 
+            //crate the document
+            servicioDocumento.createOrUpdate(docHash, name, conn);
+            //insert all the words
+            palabrasBatch.executeBatch();
+            //insert all the wordxdocument
+            ps.executeBatch();
+            // write file
+            Path filePath = fileRepo.resolve( hashingService.hashToFileName(docHash));
+            Files.write(filePath, data);
+            conn.commit();
+            ps.close();
+            return null;
+        } catch (SQLException e){
+            e.printStackTrace();
+            return e.getMessage();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
     }
+}
 

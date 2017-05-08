@@ -21,7 +21,8 @@ import java.util.Base64;
 public class SpringRootConfig {
     private final Logger logger = LoggerFactory.getLogger(SpringRootConfig.class);
 
-    public static final String docRepo = "/home/gaston/Documentos/uploads/"; //modificar
+    //public static final String docRepo = "/home/gaston/Documentos/uploads/"; //modificar
+    public static final String docRepo = "/home/ppioli/uploads/"; //modificar
 
     @Bean
     public MessageDigest getMD5(){

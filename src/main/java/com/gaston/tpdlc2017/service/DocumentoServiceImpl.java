@@ -22,8 +22,9 @@ public class DocumentoServiceImpl implements DocumentoService{
     private final Logger logger = LoggerFactory.getLogger(DocumentoServiceImpl.class);
 
     private DataSource dataSource;
-
     private HashingService hashingService;
+    private static final String CREATE_OR_UPDATE = "INSERT INTO documentos (id, name) VALUES ( ?, ? )";
+    private static final String SELECT =  "SELECT * FROM documentos WHERE id = ?";
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -36,100 +37,33 @@ public class DocumentoServiceImpl implements DocumentoService{
     }
 
     @Override
-    public boolean exists(byte[] hash) {
-        String selectSQL = "SELECT count(*) FROM documentos WHERE hash = ?";
-        ResultSet rs = null;
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        try {
-            conn = dataSource.getConnection();
-            pstmt = conn.prepareStatement(selectSQL);
-            pstmt.setBytes(1, hash);
-            rs = pstmt.executeQuery();
+    public Documento find(byte[] id) {
+        try (Connection conn = dataSource.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(SELECT)) {
+
+            pstmt.setBytes(1, id);
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                int numberOfRows = rs.getInt(1);
-                logger.info("Number of rows "+ numberOfRows);
-                return numberOfRows != 0;
+                byte[] bytes = rs.getBytes("id");
+                String name = rs.getString("name");
+                return new Documento(bytes, name);
             } else {
-                return false;
+                return null;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {}
-            }
         }
     }
 
     @Override
-    public int create(Documento doc) {
-        String sqlNew = "INSERT INTO documentos (hash, name) VALUES (?, ?)";
-        Connection conn = null;
+    public void createOrUpdate(byte[] id, String name, Connection conn) throws SQLException {
 
-        try {
-            conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sqlNew, Statement.RETURN_GENERATED_KEYS);
 
-            ps.setBytes(1, doc.getHash());
-            ps.setString(2, doc.getName());
+        PreparedStatement ps = conn.prepareStatement(CREATE_OR_UPDATE);
 
-            int result = ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            int id = -1;
-            if(rs.next())
-            {
-                id = rs.getInt(1);
-                doc.setId(id);
-            }
-            
-            ps.close();
-            return id;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {}
-            }
-        }
-    }
+        ps.setBytes(1, id);
+        ps.setString(2, name);
+        ps.executeUpdate();
 
-    @Override
-    public void indexDocument(Documento doc) {
-        Map<Palabra, Integer> map = new HashMap<>();
-    }
-
-    @Override
-    public Documento find(String hash) {
-        String sqlNew = "SELECT FROM documentos (hash) WHERE (documentos.hash = ?)";
-        Connection conn = null;
-        try {
-            conn = dataSource.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sqlNew);
-
-            ps.setString(1, hash);
-
-            ResultSet re = ps.executeQuery();
-            ps.close();
-            return null;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {}
-            }
-        }
     }
 }

@@ -2,16 +2,15 @@ package com.gaston.tpdlc2017.service;
 
 import com.gaston.tpdlc2017.model.Documento;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 /**
  * Created by ppioli on 07/05/17.
  */
 public interface DocumentoService {
 
-    boolean exists(byte[] hash);
+    Documento find(byte[] id);
+    void createOrUpdate(byte[] id, String name, Connection conn) throws SQLException;
 
-    int create(Documento doc);
-
-    void indexDocument(Documento doc);
-
-    Documento find(String hash);
 }

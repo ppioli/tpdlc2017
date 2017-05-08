@@ -58,25 +58,26 @@ public class FileUploadController {
     public @ResponseBody String handleFileUpload(@RequestParam("file") MultipartFile file){
         logger.info("Got file upload request: " + file.getName());
         if (!file.isEmpty()) {
+            
             try {
                 byte[] bytes = file.getBytes();
                 byte[] hash = hashingService.hash(bytes);
-                if(documentoService.exists(hash)){
-                    return "{\"done\": false, \"message\": \"El documento ya habia sido cargado anteriormente\" , \"file\":\"" + file.getOriginalFilename() + "\"}";
+                if(documentoService.find(hash) != null){
+                    return "{\"done\": false, \"message\": \"El documento ya habia sido cargado anteriormente\" , \"file\":\"" + file.getName() + "\"}";
                 } else {
                     //indexar el documento
-                    Documento documento = new Documento(null, file.getOriginalFilename(), hash);
-                    Path path = docRepo.resolve( hashingService.hashToFileName(hash));
-                    documentoService.create(documento);
-                    Files.write(path, bytes);
-                    indexadorDocumentos.indexar(documento);
-                    
-                    return "{\"done\": true, \"message\": \"Documento agregado!\" , \"file\":\"" + file.getOriginalFilename() + "\"}";
-                }
+                    String err = indexadorDocumentos.indexar(bytes, file.getName(), hash);
+                    if(err == null){
+                        return "{\"done\": true, \"message\": \"Documento agregado!\" , \"file\":\"" + file.getName() + "\"}";
+                    } else {
+                        return "{\"done\": false, \"message\":\"" + err + "\" , \"file\":\"" + file.getName() + "\"}";
+                    }
 
+                }
             } catch (IOException e) {
-                return "{'done': false, 'message': '"+e.getMessage()+"', 'file': '"+ file.getOriginalFilename() + "'}";
+                return "{\"done\": false, \"message\":\"" + e.getMessage() + "\" , \"file\":\"" + file.getName() + "\"}";
             }
+            
         } else {
             return "{'done': false, 'message': 'seleccion vacia (?)'}";
         }
