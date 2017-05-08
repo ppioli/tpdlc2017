@@ -27,6 +27,8 @@ public class IndexadorDocumentos {
 
     private final Logger logger = LoggerFactory.getLogger(IndexadorDocumentos.class);
 
+    private static final String INSERT = "INSERT INTO palabrasxdocumentos (idPalabra, idDocumento, frecuencia) VALUES (?, ?, ?)";
+
     private Path fileRepo;
     private HashingService hashingService;
     private ServicioPalabra servicioPalabra;
@@ -84,42 +86,48 @@ public class IndexadorDocumentos {
         } catch (IOException e) {
             return e.getMessage();
         }
-        for (Map.Entry entry : freqMap.entrySet()) {
-            logger.info(entry.getKey() + " -> " + entry.getValue());
-        }
+
+        logger.info(String.format("Analisis completado. %d palabras distintas encontradas.", freqMap.size()));
+
         return insertIntoDB(freqMap, name, data, hash);
     }
 
-    private String insertIntoDB(HashMap<String, Integer> freqMap, String name, byte[] data, byte[] docHash) {
+    private String insertIntoDB(HashMap<String, Integer> freqMap, String fileName, byte[] fileData, byte[] fileHash) {
 
-        String sqlNew = "INSERT INTO palabrasxdocumentos (idPalabra, idDocumento, frecuencia) VALUES (?, ?, ?)";
         try (Connection conn = dataSource.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sqlNew))
+             PreparedStatement ps = conn.prepareStatement(INSERT))
         {
             conn.setAutoCommit(false);
-            Set<String> palabras = freqMap.keySet();
 
-            PreparedStatement palabrasBatch = servicioPalabra.batchCreateOrUpdate(palabras, conn);
-
-
+            logger.info(String.format("Creando batch de palabras"));
+            //create batch palabras
+            PreparedStatement palabrasBatch = servicioPalabra.batchCreateOrUpdate(freqMap.entrySet(), conn);
+            logger.info(String.format("Creando batch de palabrasxdocumentos"));
+            //create batch palabrasxdocument
             for (Map.Entry<String, Integer> entry : freqMap.entrySet()){
                 ps.setBytes(1, hashingService.hash(entry.getKey()));
-                ps.setBytes(2, docHash);
+                ps.setBytes(2, fileHash);
                 ps.setInt(3, entry.getValue());
                 ps.addBatch();
             }
 
             //crate the document
-            servicioDocumento.createOrUpdate(docHash, name, conn);
+            logger.info(String.format("Insertando documento"));
+            servicioDocumento.createOrUpdate(fileHash, fileName, conn);
             //insert all the words
+            logger.info(String.format("Insertando palabras"));
             palabrasBatch.executeBatch();
             //insert all the wordxdocument
+            logger.info(String.format("Insertando palabrasxdocumento"));
             ps.executeBatch();
             // write file
-            Path filePath = fileRepo.resolve( hashingService.hashToFileName(docHash));
-            Files.write(filePath, data);
+            logger.info(String.format("Copiando el archivo"));
+            Path filePath = fileRepo.resolve( hashingService.hashToFileName(fileHash));
+            Files.write(filePath, fileData);
+            logger.info(String.format("Consolidando cambios"));
             conn.commit();
             ps.close();
+            logger.info(String.format("Todo joya, sin errores."));
             return null;
         } catch (SQLException e){
             e.printStackTrace();
@@ -130,4 +138,12 @@ public class IndexadorDocumentos {
         }
     }
 }
+
+/**
+ * PreparedStm stm = ...
+ * stn.execute() stn.addBatch() --> stm.batexecuteBatch()
+ *
+ *
+ *
+ */
 

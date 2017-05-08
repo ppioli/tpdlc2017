@@ -4,7 +4,8 @@ use db_tpdlc2017;
 
 CREATE TABLE `palabras` (
   `id` binary(20) NOT NULL,
-  `val` varchar(20) NOT NULL,
+  `val` varchar(40) NOT NULL,
+  `maxCount` int(5) NOT NULL,
   PRIMARY KEY (`id`)
 );
 

@@ -23,6 +23,7 @@ public class DocumentoServiceImpl implements DocumentoService{
 
     private DataSource dataSource;
     private HashingService hashingService;
+
     private static final String CREATE_OR_UPDATE = "INSERT INTO documentos (id, name) VALUES ( ?, ? )";
     private static final String SELECT =  "SELECT * FROM documentos WHERE id = ?";
 
@@ -40,7 +41,6 @@ public class DocumentoServiceImpl implements DocumentoService{
     public Documento find(byte[] id) {
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(SELECT)) {
-
             pstmt.setBytes(1, id);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -57,13 +57,9 @@ public class DocumentoServiceImpl implements DocumentoService{
 
     @Override
     public void createOrUpdate(byte[] id, String name, Connection conn) throws SQLException {
-
-
         PreparedStatement ps = conn.prepareStatement(CREATE_OR_UPDATE);
-
         ps.setBytes(1, id);
         ps.setString(2, name);
         ps.executeUpdate();
-
     }
 }
