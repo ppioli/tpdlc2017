@@ -24,3 +24,14 @@ CREATE TABLE `palabrasxdocumentos` (
 	CONSTRAINT `FK_idDocumento` FOREIGN KEY (`idDocumento`) REFERENCES `documentos` (`id`)
 
 );
+
+
+SELECT palabrasxdocumentos.frecuencia,
+documentos.id,
+documentos.name,
+palabras.maxCount
+FROM palabrasxdocumentos
+INNER JOIN palabras ON palabras.id = palabrasxdocumentos.idPalabra
+INNER JOIN documentos ON documentos.id = palabrasxdocumentos.idDocumento
+WHERE palabras.val = `open`
+ORDER BY palabras.maxCount 

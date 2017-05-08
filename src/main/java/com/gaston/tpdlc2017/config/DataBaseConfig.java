@@ -13,10 +13,10 @@ import javax.sql.DataSource;
 public class DataBaseConfig {
     public static final String MYSQL_DB_DRIVER_CLASS= "com.mysql.jdbc.Driver";
     public static final String MYSQL_DB_URL = "jdbc:mysql://localhost:3306/db_tpdlc2017";
-    //public static final String MYSQL_DB_USERNAME = "tpdlc";
-    //public static final String MYSQL_DB_PASSWORD = "dlc2017";
-    public static final String MYSQL_DB_USERNAME = "root";
-    public static final String MYSQL_DB_PASSWORD = "root";
+    public static final String MYSQL_DB_USERNAME = "tpdlc";
+    public static final String MYSQL_DB_PASSWORD = "dlc2017";
+   // public static final String MYSQL_DB_USERNAME = "root";
+    //public static final String MYSQL_DB_PASSWORD = "root";
 
     @Bean
     public DataSource dataSource() {

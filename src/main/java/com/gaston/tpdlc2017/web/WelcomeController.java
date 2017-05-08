@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gaston.tpdlc2017.service.HelloWorldService;
+import com.gaston.tpdlc2017.service.SearchService;
 
 @Controller
 public class WelcomeController {
 
 	private final Logger logger = LoggerFactory.getLogger(WelcomeController.class);
-	private final HelloWorldService helloWorldService;
-
+        private final SearchService searchService;
 
 	@Autowired
-	public WelcomeController(HelloWorldService helloWorldService, ServicioPalabra palabraDAO) {
-		this.helloWorldService = helloWorldService;
+	public WelcomeController(SearchService searchService) {
+		this.searchService = searchService;
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -31,10 +31,7 @@ public class WelcomeController {
 
 		logger.debug("index() is executed!");
 
-		model.put("title", helloWorldService.getTitle(""));
-		model.put("msg", helloWorldService.getDesc());
-
-
+		
 		return "index";
 	}
 
@@ -45,9 +42,7 @@ public class WelcomeController {
 
 		ModelAndView model = new ModelAndView();
 		model.setViewName("index");
-		
-		model.addObject("title", helloWorldService.getTitle(name));
-		model.addObject("msg", helloWorldService.getDesc());
+		searchService.search(new String[] {name.toLowerCase()});
 		
 		return model;
 
