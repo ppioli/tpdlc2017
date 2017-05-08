@@ -93,13 +93,10 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       if (_jspx_meth_c_if_0(_jspx_page_context))
         return;
       out.write("\n");
+      out.write("\n");
+      out.write("\n");
       out.write("\t\t\t");
       if (_jspx_meth_c_if_1(_jspx_page_context))
-        return;
-      out.write("\n");
-      out.write("\n");
-      out.write("\t\t\t");
-      if (_jspx_meth_c_if_2(_jspx_page_context))
         return;
       out.write("\n");
       out.write("\t\t</p>\n");
@@ -144,11 +141,17 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       if (_jspx_meth_spring_url_2(_jspx_page_context))
         return;
+      out.write('\n');
+      if (_jspx_meth_spring_url_3(_jspx_page_context))
+        return;
       out.write("\n");
+      out.write("<script src=\"");
+      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${jQuery}", java.lang.String.class, (PageContext)_jspx_page_context, null));
+      out.write("\"></script>\n");
       out.write("<script src=\"");
       out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${bootstrapJs}", java.lang.String.class, (PageContext)_jspx_page_context, null));
       out.write("\"></script>\n");
-      out.write("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js\"></script>\n");
+      out.write("\n");
       out.write("\n");
       out.write("</body>\n");
       out.write("</html>");
@@ -257,17 +260,13 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
     org.apache.taglibs.standard.tag.rt.core.IfTag _jspx_th_c_if_1 = (org.apache.taglibs.standard.tag.rt.core.IfTag) _jspx_tagPool_c_if_test.get(org.apache.taglibs.standard.tag.rt.core.IfTag.class);
     _jspx_th_c_if_1.setPageContext(_jspx_page_context);
     _jspx_th_c_if_1.setParent(null);
-    _jspx_th_c_if_1.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${not empty palabra}", java.lang.Boolean.class, (PageContext)_jspx_page_context, null)).booleanValue());
+    _jspx_th_c_if_1.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${empty msg}", java.lang.Boolean.class, (PageContext)_jspx_page_context, null)).booleanValue());
     int _jspx_eval_c_if_1 = _jspx_th_c_if_1.doStartTag();
     if (_jspx_eval_c_if_1 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
       do {
         out.write("\n");
-        out.write("                    Palabra ");
-        out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${palabra.getValor()}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write(" Cuenta ");
-        out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${palabra.getCuentaMaxima()}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-        out.write("\n");
-        out.write("            ");
+        out.write("\t\t\t\tWelcome Welcome!\n");
+        out.write("\t\t\t");
         int evalDoAfterBody = _jspx_th_c_if_1.doAfterBody();
         if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
           break;
@@ -281,34 +280,6 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
     return false;
   }
 
-  private boolean _jspx_meth_c_if_2(PageContext _jspx_page_context)
-          throws Throwable {
-    PageContext pageContext = _jspx_page_context;
-    JspWriter out = _jspx_page_context.getOut();
-    //  c:if
-    org.apache.taglibs.standard.tag.rt.core.IfTag _jspx_th_c_if_2 = (org.apache.taglibs.standard.tag.rt.core.IfTag) _jspx_tagPool_c_if_test.get(org.apache.taglibs.standard.tag.rt.core.IfTag.class);
-    _jspx_th_c_if_2.setPageContext(_jspx_page_context);
-    _jspx_th_c_if_2.setParent(null);
-    _jspx_th_c_if_2.setTest(((java.lang.Boolean) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${empty msg}", java.lang.Boolean.class, (PageContext)_jspx_page_context, null)).booleanValue());
-    int _jspx_eval_c_if_2 = _jspx_th_c_if_2.doStartTag();
-    if (_jspx_eval_c_if_2 != javax.servlet.jsp.tagext.Tag.SKIP_BODY) {
-      do {
-        out.write("\n");
-        out.write("\t\t\t\tWelcome Welcome!\n");
-        out.write("\t\t\t");
-        int evalDoAfterBody = _jspx_th_c_if_2.doAfterBody();
-        if (evalDoAfterBody != javax.servlet.jsp.tagext.BodyTag.EVAL_BODY_AGAIN)
-          break;
-      } while (true);
-    }
-    if (_jspx_th_c_if_2.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
-      _jspx_tagPool_c_if_test.reuse(_jspx_th_c_if_2);
-      return true;
-    }
-    _jspx_tagPool_c_if_test.reuse(_jspx_th_c_if_2);
-    return false;
-  }
-
   private boolean _jspx_meth_spring_url_2(PageContext _jspx_page_context)
           throws Throwable {
     PageContext pageContext = _jspx_page_context;
@@ -317,7 +288,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
     org.springframework.web.servlet.tags.UrlTag _jspx_th_spring_url_2 = (org.springframework.web.servlet.tags.UrlTag) _jspx_tagPool_spring_url_var_value_nobody.get(org.springframework.web.servlet.tags.UrlTag.class);
     _jspx_th_spring_url_2.setPageContext(_jspx_page_context);
     _jspx_th_spring_url_2.setParent(null);
-    _jspx_th_spring_url_2.setValue("/resources/core/css/bootstrap.min.js");
+    _jspx_th_spring_url_2.setValue("/resources/core/js/bootstrap.min.js");
     _jspx_th_spring_url_2.setVar("bootstrapJs");
     int[] _jspx_push_body_count_spring_url_2 = new int[] { 0 };
     try {
@@ -332,6 +303,33 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
     } finally {
       _jspx_th_spring_url_2.doFinally();
       _jspx_tagPool_spring_url_var_value_nobody.reuse(_jspx_th_spring_url_2);
+    }
+    return false;
+  }
+
+  private boolean _jspx_meth_spring_url_3(PageContext _jspx_page_context)
+          throws Throwable {
+    PageContext pageContext = _jspx_page_context;
+    JspWriter out = _jspx_page_context.getOut();
+    //  spring:url
+    org.springframework.web.servlet.tags.UrlTag _jspx_th_spring_url_3 = (org.springframework.web.servlet.tags.UrlTag) _jspx_tagPool_spring_url_var_value_nobody.get(org.springframework.web.servlet.tags.UrlTag.class);
+    _jspx_th_spring_url_3.setPageContext(_jspx_page_context);
+    _jspx_th_spring_url_3.setParent(null);
+    _jspx_th_spring_url_3.setValue("/resources/core/js/jquery.js");
+    _jspx_th_spring_url_3.setVar("jQuery");
+    int[] _jspx_push_body_count_spring_url_3 = new int[] { 0 };
+    try {
+      int _jspx_eval_spring_url_3 = _jspx_th_spring_url_3.doStartTag();
+      if (_jspx_th_spring_url_3.doEndTag() == javax.servlet.jsp.tagext.Tag.SKIP_PAGE) {
+        return true;
+      }
+    } catch (Throwable _jspx_exception) {
+      while (_jspx_push_body_count_spring_url_3[0]-- > 0)
+        out = _jspx_page_context.popBody();
+      _jspx_th_spring_url_3.doCatch(_jspx_exception);
+    } finally {
+      _jspx_th_spring_url_3.doFinally();
+      _jspx_tagPool_spring_url_var_value_nobody.reuse(_jspx_th_spring_url_3);
     }
     return false;
   }

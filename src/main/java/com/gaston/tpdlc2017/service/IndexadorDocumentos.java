@@ -88,7 +88,7 @@ public class IndexadorDocumentos {
 
     private boolean insertIntoDB(Map<String, Integer> freqMap, Documento doc) {
 
-        String sqlNew = "INSERT INTO palabraxdocumento (idPalabra, idDocumento, frecuencia) VALUES (?, ?, ?)";
+        String sqlNew = "INSERT INTO palabrasxdocumentos (idPalabra, idDocumento, frecuencia) VALUES (?, ?, ?)";
         Connection conn = null;
 
         try {
