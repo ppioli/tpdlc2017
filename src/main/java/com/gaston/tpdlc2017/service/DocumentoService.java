@@ -12,5 +12,6 @@ public interface DocumentoService {
 
     Documento find(byte[] id);
     void createOrUpdate(byte[] id, String name, Connection conn) throws SQLException;
+    int getCount(Connection conn) throws SQLException;
 
 }

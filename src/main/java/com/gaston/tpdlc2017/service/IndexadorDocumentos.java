@@ -123,6 +123,9 @@ public class IndexadorDocumentos {
             // write file
             logger.info(String.format("Copiando el archivo"));
             Path filePath = fileRepo.resolve( hashingService.hashToFileName(fileHash));
+            File f = new File("/resources/test.txt");
+            if(!f.exists())
+                f.createNewFile();
             Files.write(filePath, fileData);
             logger.info(String.format("Consolidando cambios"));
             conn.commit();
@@ -130,7 +133,7 @@ public class IndexadorDocumentos {
             logger.info(String.format("Todo joya, sin errores."));
             return null;
         } catch (SQLException e){
-            e.printStackTrace();
+             e.printStackTrace();
             return e.getMessage();
         } catch (Exception e) {
             e.printStackTrace();

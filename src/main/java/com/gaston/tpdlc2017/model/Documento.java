@@ -8,10 +8,11 @@ public class Documento {
 
     private String name;
     private byte[] id;
-
-    public Documento(byte[] id, String name) {
+    private String path;
+    public Documento(byte[] id, String name, String path) {
         this.id = id;
         this.name = name;
+        this.path = path;
     }
 
     public String getName() {
@@ -22,7 +23,6 @@ public class Documento {
         this.name = name;
     }
 
-
     public byte[] getId() {
         return id;
     }
@@ -31,4 +31,11 @@ public class Documento {
         this.id = id;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 }

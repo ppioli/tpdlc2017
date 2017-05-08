@@ -7,9 +7,13 @@ public class PalabraXDocumento {
     private Palabra palabra;
     private Documento documento;
     private int count;
+    private int totalCount;
 
-    public Palabra getPalabra() {
-        return palabra;
+    public PalabraXDocumento(Palabra palabra, Documento documento, int count, int totalCount) {
+        this.palabra = palabra;
+        this.documento = documento;
+        this.count = count;
+        this.totalCount = totalCount;
     }
 
     public void setPalabra(Palabra palabra) {

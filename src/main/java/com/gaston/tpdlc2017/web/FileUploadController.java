@@ -56,26 +56,26 @@ public class FileUploadController {
 
     @RequestMapping(value="/upload", method=RequestMethod.POST)
     public @ResponseBody String handleFileUpload(@RequestParam("file") MultipartFile file){
-        logger.info("Got file upload request: " + file.getName());
+        logger.info("Got file upload request: " + file.getOriginalFilename());
         if (!file.isEmpty()) {
             
             try {
                 byte[] bytes = file.getBytes();
                 byte[] hash = hashingService.hash(bytes);
                 if(documentoService.find(hash) != null){
-                    return "{\"done\": false, \"message\": \"El documento ya habia sido cargado anteriormente\" , \"file\":\"" + file.getName() + "\"}";
+                    return "{\"done\": false, \"message\": \"El documento ya habia sido cargado anteriormente\" , \"file\":\"" + file.getOriginalFilename() + "\"}";
                 } else {
                     //indexar el documento
-                    String err = indexadorDocumentos.indexar(bytes, file.getName(), hash);
+                    String err = indexadorDocumentos.indexar(bytes, file.getOriginalFilename(), hash);
                     if(err == null){
-                        return "{\"done\": true, \"message\": \"Documento agregado!\" , \"file\":\"" + file.getName() + "\"}";
+                        return "{\"done\": true, \"message\": \"Documento agregado!\" , \"file\":\"" + file.getOriginalFilename() + "\"}";
                     } else {
-                        return "{\"done\": false, \"message\":\"" + err + "\" , \"file\":\"" + file.getName() + "\"}";
+                        return "{\"done\": false, \"message\":\"" + err + "\" , \"file\":\"" + file.getOriginalFilename() + "\"}";
                     }
 
                 }
             } catch (IOException e) {
-                return "{\"done\": false, \"message\":\"" + e.getMessage() + "\" , \"file\":\"" + file.getName() + "\"}";
+                return "{\"done\": false, \"message\":\"" + e.getMessage() + "\" , \"file\":\"" + file.getOriginalFilename() + "\"}";
             }
             
         } else {

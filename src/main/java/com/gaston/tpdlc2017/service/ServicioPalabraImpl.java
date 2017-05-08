@@ -6,12 +6,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,9 +23,12 @@ public class ServicioPalabraImpl implements ServicioPalabra {
     private final Logger logger = LoggerFactory.getLogger(ServicioPalabraImpl.class);
 
     public static final String CREATE_OR_UPDATE= "INSERT INTO palabras (id, val, maxCount) VALUES ( ?, ?, ? ) "
-        +"ON DUPLICATE KEY UPDATE maxCount=GREATEST(VALUES(maxCount), ?)";
+        +"ON DUPLICATE KEY UPDATE maxCount=GREATEST(VALUES(maxCount), ?), docCount=docCount+1";
+
+    public static final String SELECT = "SELECT * FROM palabras WHERE palabras.id = ?";
 
     private HashingService hashService;
+
 
     @Autowired
     public void setHashService(HashingService hashService) {
@@ -45,6 +48,41 @@ public class ServicioPalabraImpl implements ServicioPalabra {
 
         ps.executeUpdate();
 
+    }
+
+    @Override
+    public List<Palabra> rank(String[] query, int totalDocuments, Connection conn) {
+        List<Palabra> lista = new ArrayList<>();
+        try(PreparedStatement ps = conn.prepareStatement(SELECT)){
+            for (String palabra :query) {
+                byte[] hash = hashService.hash(palabra);
+                ps.setBytes(1 , hash);
+                ResultSet rs = ps.executeQuery();
+                if(rs.next()){
+                    Palabra pal = new Palabra(hash, palabra,
+                            rs.getInt("maxCount"),
+                            rs.getInt("docCount"),
+                            totalDocuments);
+                    logger.info(String.format("Palabra: %s  - Valor: %.2f", pal.getValor(), pal.getScore()));
+                    if(!pal.isStopWord()){
+                        lista.add(pal);
+                    }
+                } else {
+                    logger.info(String.format("Palabra: %s no encontrada", palabra));
+                }
+            }
+            lista.sort( (palabraA, palabraB) -> {
+                double scoreA = palabraA.getScore();
+                double scoreB = palabraB.getScore();
+                if(scoreA < scoreB) return 1;
+                else if (scoreB < scoreA ) return -1;
+                return 0; //should never happend
+            });
+            return lista;
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+            return null;
+        }
     }
 
     @Override

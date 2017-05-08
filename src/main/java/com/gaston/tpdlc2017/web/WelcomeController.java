@@ -1,7 +1,9 @@
 package com.gaston.tpdlc2017.web;
 
+import java.util.List;
 import java.util.Map;
 
+import com.gaston.tpdlc2017.model.Documento;
 import com.gaston.tpdlc2017.service.ServicioPalabra;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,9 +32,14 @@ public class WelcomeController {
 	public String index(Map<String, Object> model) {
 
 		logger.debug("index() is executed!");
+		List<Documento> documentos = searchService.search(new String[] {"hold", "the", "door", "engine"});
+		logger.debug("Cantidad de documentos"+documentos.size());
+		for(Documento doc : documentos) {
+			logger.info("Encontro un documento " + doc.getPath());
+		}
+		model.put("documentos", documentos);
 
-		
-		return "index";
+		return "result";
 	}
 
 	@RequestMapping(value = "/hello/{name:.+}", method = RequestMethod.GET)

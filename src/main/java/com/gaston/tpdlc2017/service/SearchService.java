@@ -10,11 +10,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
+
+import com.gaston.tpdlc2017.model.Palabra;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,16 +30,39 @@ import org.springframework.stereotype.Service;
 @Service
 public class SearchService {
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(SearchService.class);
-    
-    public static final String PREFIX = "SELECT palabrasxdocumentos.frecuencia,"+
-    "documentos.id, documentos.name, palabras.maxCount"+ 
+    /*
+    public static final String PREFIX = "SELECT documentos.id,"+
+        " palabras.val, palabrasxdocumentos.frecuencia, palabras.docCount"+
         " FROM palabrasxdocumentos"+
         " INNER JOIN palabras ON palabras.id = palabrasxdocumentos.idPalabra"+
         " INNER JOIN documentos ON documentos.id = palabrasxdocumentos.idDocumento WHERE ";
-    public static final String SUFFIX = " ORDER BY palabras.maxCount";
+    public static final String SUFFIX = " ORDER BY palabras.id, palabrasxdocumentos.frecuencia DESC";
+    */
+    public static final int M = 5;
+
+    public static final String SQL = "SELECT documentos.id, documentos.name"+
+            " FROM palabrasxdocumentos"+
+            " INNER JOIN palabras ON palabras.id = palabrasxdocumentos.idPalabra"+
+            " INNER JOIN documentos ON documentos.id = palabrasxdocumentos.idDocumento" +
+            " WHERE palabras.id = ? "+
+            " ORDER BY palabrasxdocumentos.frecuencia DESC" +
+            " LIMIT "+M;
 
     private DataSource dataSource;
     private HashingService hashService;
+    private DocumentoService documentoService;
+    private ServicioPalabra palabraService;
+
+
+    @Autowired
+    public void setPalabraService(ServicioPalabra palabraService) {
+        this.palabraService = palabraService;
+    }
+
+    @Autowired
+    public void setDocumentoService(DocumentoService documentoService) {
+        this.documentoService = documentoService;
+    }
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -49,29 +76,23 @@ public class SearchService {
     
 
     public List<Documento> search(String[] querySearch) {
-        
-      
-        StringJoiner sj = new StringJoiner(" OR ", PREFIX, SUFFIX);
-        for (String st: querySearch) {
-            sj.add("palabras.id = ?");
-            
-        }
-        String query = sj.toString();
-        logger.info("La busqueda es: "+ query);
+        List<Documento> listaDocumentos = new ArrayList<>();
+        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(SQL)) {
+            int N =  documentoService.getCount(conn);
+            List<Palabra> ranking = palabraService.rank(querySearch, N, conn);
 
-        try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-            
-            for (int i = 0; i < querySearch.length; i++) {
-                
-                ps.setBytes(i+1, hashService.hash(querySearch[i]));
-                
+            for( Palabra p : ranking){
+                ps.setBytes(1, p.getId());
+                ResultSet rs = ps.executeQuery();
+                while(rs.next()){
+                    byte[] hash = rs.getBytes(1);
+                    listaDocumentos.add( new Documento( hash,
+                            rs.getString(2),
+                            hashService.hashToFileName(hash))
+                    );
+                }
             }
-            ps.execute();
-            ResultSet rs = ps.getResultSet();
-            while (rs.next()) { 
-                logger.info(rs.getString(3));
-            }
-            return null;
+            return listaDocumentos;
         } catch (SQLException ex) {
             Logger.getLogger(SearchService.class.getName()).log(Level.SEVERE, null, ex);
         } 

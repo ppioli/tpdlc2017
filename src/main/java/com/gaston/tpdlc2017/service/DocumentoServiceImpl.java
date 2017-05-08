@@ -26,6 +26,7 @@ public class DocumentoServiceImpl implements DocumentoService{
 
     private static final String CREATE_OR_UPDATE = "INSERT INTO documentos (id, name) VALUES ( ?, ? )";
     private static final String SELECT =  "SELECT * FROM documentos WHERE id = ?";
+    private static final String COUNT =  "SELECT count(*) FROM documentos";
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
@@ -46,7 +47,7 @@ public class DocumentoServiceImpl implements DocumentoService{
             if (rs.next()) {
                 byte[] bytes = rs.getBytes("id");
                 String name = rs.getString("name");
-                return new Documento(bytes, name);
+                return new Documento(bytes, name, hashingService.hashToFileName(bytes));
             } else {
                 return null;
             }
@@ -61,5 +62,15 @@ public class DocumentoServiceImpl implements DocumentoService{
         ps.setBytes(1, id);
         ps.setString(2, name);
         ps.executeUpdate();
+    }
+
+    @Override
+    public int getCount(Connection conn) throws SQLException {
+        try(PreparedStatement ps = conn.prepareStatement(COUNT)){
+            ps.executeQuery();
+            ResultSet rs = ps.getResultSet();
+            rs.next();
+            return rs.getInt(1);
+        }
     }
 }
