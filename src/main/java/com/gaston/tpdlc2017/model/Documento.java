@@ -3,13 +3,12 @@ package com.gaston.tpdlc2017.model;
 /**
  * Created by ppioli on 07/05/17.
  */
-public class Documento {
 
+public class Documento {
 
     private String name;
     private byte[] hash;
     private Integer id;
-
 
     public Documento(Integer id, String name, byte[] hash) {
         this.id = id;

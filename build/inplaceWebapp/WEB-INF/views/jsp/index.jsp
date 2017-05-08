@@ -26,9 +26,7 @@
 			<c:if test="${not empty msg}">
 				Hello ${msg}
 			</c:if>
-			<c:if test="${not empty palabra}">
-                    Palabra ${palabra.getValor()} Cuenta ${palabra.getCuentaMaxima()}
-            </c:if>
+
 
 			<c:if test="${empty msg}">
 				Welcome Welcome!

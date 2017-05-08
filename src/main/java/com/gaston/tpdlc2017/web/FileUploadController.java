@@ -62,7 +62,7 @@ public class FileUploadController {
                 byte[] bytes = file.getBytes();
                 byte[] hash = hashingService.hash(bytes);
                 if(documentoService.exists(hash)){
-                    return "{done: false, message: \"Documento ya fue indexado\" , file:\"" + file.getOriginalFilename() + "\"}";
+                    return "{\"done\": false, \"message\": \"El documento ya habia sido cargado anteriormente\" , \"file\":\"" + file.getOriginalFilename() + "\"}";
                 } else {
                     //indexar el documento
                     Documento documento = new Documento(null, file.getOriginalFilename(), hash);
@@ -72,14 +72,14 @@ public class FileUploadController {
                     if(result){
                         Files.write(path, bytes);
                     }
-                    return "{done: true, message: \"Documento indexado\" , file:\"" + file.getOriginalFilename() + "\"}";
+                    return "{\"done\": true, \"message\": \"Documento agregado!\" , \"file\":\"" + file.getOriginalFilename() + "\"}";
                 }
 
             } catch (IOException e) {
-                return "{done: false, message: \""+e.getMessage()+"\", file:\"" + file.getOriginalFilename() + "\"}";
+                return "{'done': false, 'message': '"+e.getMessage()+"', 'file': '"+ file.getOriginalFilename() + "'}";
             }
         } else {
-            return "{done: false, message: \"Seleccion vacia\"}";
+            return "{'done': false, 'message': 'seleccion vacia (?)'}";
         }
 
     }

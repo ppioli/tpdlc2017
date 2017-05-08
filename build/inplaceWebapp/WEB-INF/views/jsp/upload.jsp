@@ -1,5 +1,3 @@
-
-
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -44,9 +42,27 @@
 
 <div class="container">
 	<form id="file-form" action="" method="POST">
+        <div class="row">
+            <div class="col-md-3">
+                <h3> Subir Archivos</h3>
+            </div>
+            <div class="col-md-4">
+                <label class="btn btn-default btn-file">
+                    Seleccionar <input type="file" id="file-select"  style="display: none;" name="files" multiple/>
+                </label>
+            </div>
+        </div>
 
-        <input type="file" id="file-select" name="files" multiple/>
-        <button type="submit" id="upload-button">Upload</button>
+        <div id="tableDiv" class="row">
+        <table  class="table">
+        <thead><tr><td>#</td><td>Nombre</td><td>Status</td></tr></thead>
+        <tbody id="filesTable">
+
+        </tbody>
+        </table>
+        </div>
+
+        <button  class="btn btn-default" type="submit" id="upload-button">Upload</button>
 
     </form>
 	<hr>

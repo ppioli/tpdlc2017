@@ -56,8 +56,6 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
 
       out.write("\n");
       out.write("\n");
-      out.write("\n");
-      out.write("\n");
       out.write("<!DOCTYPE html>\n");
       out.write("<html lang=\"en\">\n");
       out.write("<head>\n");
@@ -113,9 +111,26 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("<div class=\"container\">\n");
       out.write("\t<form id=\"file-form\" action=\"\" method=\"POST\">\n");
+      out.write("        <div class=\"row\">\n");
+      out.write("            <div class=\"col-md-3\">\n");
+      out.write("                <h3> Subir Archivos</h3>\n");
+      out.write("            </div>\n");
+      out.write("            <div class=\"col-md-4\">\n");
+      out.write("                <label class=\"btn btn-default btn-file\">\n");
+      out.write("                    Seleccionar <input type=\"file\" id=\"file-select\"  style=\"display: none;\" name=\"files\" multiple/>\n");
+      out.write("                </label>\n");
+      out.write("            </div>\n");
+      out.write("        </div>\n");
       out.write("\n");
-      out.write("        <input type=\"file\" id=\"file-select\" name=\"files\" multiple/>\n");
-      out.write("        <button type=\"submit\" id=\"upload-button\">Upload</button>\n");
+      out.write("        <div id=\"tableDiv\" class=\"row\">\n");
+      out.write("        <table  class=\"table\">\n");
+      out.write("        <thead><tr><td>#</td><td>Nombre</td><td>Status</td></tr></thead>\n");
+      out.write("        <tbody id=\"filesTable\">\n");
+      out.write("        </tbody>\n");
+      out.write("        </table>\n");
+      out.write("        </div>\n");
+      out.write("\n");
+      out.write("        <button  class=\"btn btn-default\" type=\"submit\" id=\"upload-button\">Upload</button>\n");
       out.write("\n");
       out.write("    </form>\n");
       out.write("\t<hr>\n");
