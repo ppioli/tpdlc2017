@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import java.nio.file.Path;
+import java.nio.file.Path;  
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -21,7 +21,7 @@ import java.util.Base64;
 public class SpringRootConfig {
     private final Logger logger = LoggerFactory.getLogger(SpringRootConfig.class);
 
-    public static final String docRepo = "/home/ppioli/uploads/";
+    public static final String docRepo = "/home/ppioli/uploads/"; //modificar
 
     @Bean
     public MessageDigest getMD5(){

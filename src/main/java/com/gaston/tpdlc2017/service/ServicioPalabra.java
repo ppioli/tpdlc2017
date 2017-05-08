@@ -7,6 +7,8 @@ import com.gaston.tpdlc2017.model.Palabra;
  */
 public interface ServicioPalabra {
 
-    Palabra create(Palabra palabra);
     Palabra get(byte[] hash);
+    Palabra createOrUpdate(String valor, int count);
+    Palabra exists(byte[] hash);
+    
 }
