@@ -1,22 +1,18 @@
 package com.gaston.tpdlc2017.web;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import com.gaston.tpdlc2017.model.Documento;
-import com.gaston.tpdlc2017.service.ServicioPalabra;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gaston.tpdlc2017.service.HelloWorldService;
 import com.gaston.tpdlc2017.service.SearchService;
 
 @Controller

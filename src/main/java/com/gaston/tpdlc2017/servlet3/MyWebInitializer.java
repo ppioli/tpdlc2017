@@ -12,7 +12,7 @@ import java.io.File;
 public class MyWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	private String TMP_FOLDER = "/tmp";
-	private int MAX_UPLOAD_SIZE = 5 * 1024 * 1024;
+	private int MAX_UPLOAD_SIZE = 20 * 1024 * 1024;
 
 	@Override
 	protected void customizeRegistration(ServletRegistration.Dynamic registration) {

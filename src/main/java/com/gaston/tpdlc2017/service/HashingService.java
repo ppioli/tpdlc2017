@@ -8,7 +8,8 @@ import java.security.MessageDigest;
 import java.util.Base64;
 
 /**
- * Created by ppioli on 07/05/17.
+ *
+ * @author gaston
  */
 @Service
 public class HashingService {

@@ -20,7 +20,8 @@ import java.util.logging.Level;
 import javax.sql.DataSource;
 
 /**
- * Created by ppioli on 07/05/17.
+ *
+ * @author gaston
  */
 @Service
 public class IndexadorDocumentos {

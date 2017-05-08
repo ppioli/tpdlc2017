@@ -10,7 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by ppioli on 07/05/17.
+ *
+ * @author gaston
  */
 public interface ServicioPalabra {
 

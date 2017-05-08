@@ -7,7 +7,8 @@ import javax.sql.DataSource;
 
 
 /**
- * Created by ppioli on 07/05/17.
+ *
+ * @author gaston
  */
 @Configuration
 public class DataBaseConfig {

@@ -6,7 +6,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Created by ppioli on 07/05/17.
+ *
+ * @author gaston
  */
 public interface DocumentoService {
 
