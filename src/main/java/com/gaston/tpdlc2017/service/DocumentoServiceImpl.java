@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by ppioli on 07/05/17.
@@ -82,8 +84,9 @@ public class DocumentoServiceImpl implements DocumentoService{
             if(rs.next())
             {
                 id = rs.getInt(1);
+                doc.setId(id);
             }
-
+            
             ps.close();
             return id;
         } catch (SQLException e) {

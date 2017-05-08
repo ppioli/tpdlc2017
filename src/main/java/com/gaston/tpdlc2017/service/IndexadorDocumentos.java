@@ -12,20 +12,35 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import javax.sql.DataSource;
 
 /**
  * Created by ppioli on 07/05/17.
  */
 @Service
 public class IndexadorDocumentos {
+
     private final Logger logger = LoggerFactory.getLogger(IndexadorDocumentos.class);
 
     private Path fileRepo;
     private HashingService hashingService;
     private ServicioPalabra servicioPalabra;
+    private DataSource dataSource;
 
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Autowired
     public void setDocRepo(Path fileRepo) {
@@ -56,17 +71,57 @@ public class IndexadorDocumentos {
             for (String palabra : palabrasDeLaLinea) {                             //por cada palabra de la linea
                 if (palabra.length() > 1 && !palabra.matches(".*[0-9].*")) {      //elimino letras, espacios y numeros
                     palabra = palabra.toLowerCase();                                //elimino mayusculas
-                    if(freqMap.containsKey(palabra)){
-                        freqMap.put(palabra, freqMap.get(palabra)+1);
+                    if (freqMap.containsKey(palabra)) {
+                        freqMap.put(palabra, freqMap.get(palabra) + 1);
                     } else {
                         freqMap.put(palabra, 1);
                     }
                 }
             }
         } while (true);
-        for(Map.Entry entry : freqMap.entrySet()){
+        for (Map.Entry entry : freqMap.entrySet()) {
             logger.info(entry.getKey() + " -> " + entry.getValue());
+
         }
-        return true;
+        return insertIntoDB(freqMap, doc);
     }
-}
+
+    private boolean insertIntoDB(Map<String, Integer> freqMap, Documento doc) {
+
+        String sqlNew = "INSERT INTO palabraxdocumento (idPalabra, idDocumento, frecuencia) VALUES (?, ?, ?)";
+        Connection conn = null;
+
+        try {
+            conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sqlNew, Statement.RETURN_GENERATED_KEYS);
+            List<Palabra> list = new LinkedList<>();
+
+            for (Map.Entry<String, Integer> entry : freqMap.entrySet()) {
+                Palabra pal = servicioPalabra.createOrUpdate(entry.getKey(), entry.getValue());
+                //por cada entry del map, agregar una fila
+                ps.setInt(1, pal.getId());
+                ps.setInt(2, doc.getId());
+                ps.setInt(3, pal.getCuentaMaxima());
+                ps.executeUpdate();
+                
+            }
+            ps.close();
+            return true;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        }
+
+    }
+
