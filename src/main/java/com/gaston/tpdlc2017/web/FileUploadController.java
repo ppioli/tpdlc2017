@@ -68,10 +68,9 @@ public class FileUploadController {
                     Documento documento = new Documento(null, file.getOriginalFilename(), hash);
                     Path path = docRepo.resolve( hashingService.hashToFileName(hash));
                     documentoService.create(documento);
-                    boolean result = indexadorDocumentos.indexar(documento);
-                    if(result){
-                        Files.write(path, bytes);
-                    }
+                    Files.write(path, bytes);
+                    indexadorDocumentos.indexar(documento);
+                    
                     return "{\"done\": true, \"message\": \"Documento agregado!\" , \"file\":\"" + file.getOriginalFilename() + "\"}";
                 }
 

@@ -102,9 +102,9 @@ public class IndexadorDocumentos {
                 ps.setInt(1, pal.getId());
                 ps.setInt(2, doc.getId());
                 ps.setInt(3, pal.getCuentaMaxima());
-                ps.executeUpdate();
-                
-            }
+                ps.addBatch();
+                }
+            ps.executeBatch();
             ps.close();
             return true;
 

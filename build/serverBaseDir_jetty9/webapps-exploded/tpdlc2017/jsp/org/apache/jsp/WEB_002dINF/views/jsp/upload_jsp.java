@@ -126,6 +126,7 @@ public final class upload_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <table  class=\"table\">\n");
       out.write("        <thead><tr><td>#</td><td>Nombre</td><td>Status</td></tr></thead>\n");
       out.write("        <tbody id=\"filesTable\">\n");
+      out.write("\n");
       out.write("        </tbody>\n");
       out.write("        </table>\n");
       out.write("        </div>\n");
